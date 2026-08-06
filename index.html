@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Integrity Ops · RevOps & GTM Systems that Scale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B0F2B;
+    --surface: #0E1333;
+    --surface-2: #121839;
+    --border: rgba(34,211,238,0.12);
+    --border-strong: rgba(34,211,238,0.25);
+    --accent: #22D3EE;
+    --accent-dim: rgba(34,211,238,0.08);
+    --green: #00E676;
+    --green-bright: #3DFF9A;
+    --green-dim: rgba(0,230,118,0.08);
+    --green-border: rgba(0,230,118,0.28);
+    --text: #E2EBF3;
+    --text-muted: #94A3B8;
+    --text-dim: #5A7189;
+    --red: #F87171;
+    --amber: #FBBF24;
+    --magenta: #A78BFA;
+    --magenta-dim: rgba(167,139,250,0.07);
+    --magenta-border: rgba(167,139,250,0.25);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(34,211,238,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34,211,238,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -200px; left: 50%;
+    transform: translateX(-50%);
+    width: 900px; height: 500px;
+    background: radial-gradient(ellipse, rgba(34,211,238,0.07) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    border-bottom: 1px solid var(--border);
+    background: rgba(11,15,43,0.85);
+    backdrop-filter: blur(12px);
+  }
+  .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo svg { width: 26px; height: 26px; display: block; }
+  .nav-logo-text { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 800; letter-spacing: -0.01em; color: var(--text); }
+  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+  .nav-links a { font-family: 'DM Sans', sans-serif; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--bg) !important; background: var(--accent); padding: 8px 18px; text-decoration: none; font-weight: 600; border-radius: 4px; transition: opacity 0.2s; }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* HERO */
+  .hero { padding: 160px 0 90px; position: relative; z-index: 1; }
+  .hero-tag { font-size: 13px; font-weight: 500; letter-spacing: 0.02em; color: #94A3B8; margin-bottom: 32px; display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); padding: 8px 18px; border-radius: 100px; }
+  .hero-tag-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; flex-shrink: 0; animation: pulse 2s infinite; }
+  .hero-tag-divider { color: rgba(255,255,255,0.2); }
+  .hero h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(44px, 7vw, 88px); font-weight: 800; line-height: 1.08; letter-spacing: -0.03em; margin-bottom: 32px; max-width: 15ch; padding-bottom: 8px; }
+  .hero h1 em { font-style: normal; background: linear-gradient(90deg, #22D3EE 0%, #67E8F9 50%, #A5F3FC 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; padding-bottom: 0.12em; }
+  .hero-sub { font-size: 18px; font-weight: 300; color: var(--text-muted); max-width: 600px; line-height: 1.7; margin-bottom: 44px; }
+  .hero-sub strong { color: var(--text); font-weight: 500; }
+  .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+
+  .btn-primary { font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600; color: var(--bg); background: var(--accent); padding: 14px 28px; text-decoration: none; display: inline-block; border-radius: 4px; transition: opacity 0.2s, transform 0.2s; }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-ghost { font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 500; color: var(--text-muted); border: 1px solid var(--border-strong); padding: 14px 28px; text-decoration: none; display: inline-block; border-radius: 4px; transition: color 0.2s, border-color 0.2s; }
+  .btn-ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+  .section-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  /* PROBLEM STRIP */
+  .problem-strip { padding: 80px 0; position: relative; z-index: 1; }
+  .label { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 40px; }
+  .label-lg { font-size: 15px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 44px; }
+  .offer-group-label { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin: 0 0 2px; padding: 20px 0 4px; }
+  .offer-group-label.ops { color: var(--accent); }
+  .offer-group-label.specialist { color: var(--amber); }
+  .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+  .problem-item { background: var(--bg); padding: 32px; position: relative; border-left: 2px solid transparent; transition: border-color 0.3s; }
+  .problem-item:hover { border-left-color: var(--red); }
+  .problem-item::before { content: attr(data-num); font-size: 11px; font-weight: 600; color: var(--red); display: block; margin-bottom: 12px; letter-spacing: 0.08em; }
+  .problem-item p { font-size: 17px; font-weight: 300; color: var(--text-muted); line-height: 1.7; }
+  .problem-item strong { color: var(--red); font-weight: 500; }
+
+  .section-heading { font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(34px, 5vw, 58px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.0; }
+  .section-heading em { font-style: normal; background: linear-gradient(90deg, #22D3EE 0%, #67E8F9 50%, #A5F3FC 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .section-heading em.green { background: linear-gradient(90deg, #00E676 0%, #3DFF9A 100%); -webkit-background-clip: text; background-clip: text; }
+
+  /* OFFERS */
+  .offers-section { padding: 100px 0; position: relative; z-index: 1; }
+  .offers-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 56px; gap: 32px; flex-wrap: wrap; }
+  .offers-header p { font-size: 16px; color: var(--text-muted); font-weight: 300; max-width: 400px; line-height: 1.7; }
+  .offer-cards { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--border); }
+  .offer-card { background: var(--surface); padding: 48px; display: flex; flex-direction: column; position: relative; overflow: hidden; transition: background 0.3s; }
+  .offer-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: transparent; transition: background 0.3s; }
+  .offer-card:hover { background: var(--surface-2); }
+  .offer-card:hover::before { background: var(--accent); }
+  .offer-card-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+
+  .offer-badge { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-dim); border: 1px solid var(--border-strong); padding: 5px 12px; border-radius: 4px; display: inline-block; margin-bottom: 24px; align-self: flex-start; }
+  .offer-badge-green { color: var(--green); background: var(--green-dim); border-color: var(--green-border); }
+  .offer-badge-amber { color: #FBBF24; background: rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.3); }
+  .offer-badge-magenta { color: #A78BFA; background: rgba(167,139,250,0.07); border-color: rgba(167,139,250,0.28); }
+
+  .offer-tiers { font-size: 11px; font-weight: 500; letter-spacing: 0.04em; color: var(--text-dim); margin-bottom: 20px; text-transform: uppercase; }
+  .offer-card h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 12px; }
+  .offer-price { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 28px; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; margin-bottom: 4px; }
+  .offer-price.green { color: var(--green); }
+  .offer-price.amber { color: var(--amber); }
+  .offer-meta { font-size: 12px; font-weight: 400; color: var(--text-dim); margin-bottom: 28px; }
+  .offer-desc { font-size: 15px; font-weight: 400; color: var(--text-muted); line-height: 1.7; margin-bottom: 32px; }
+  .offer-deliverables-label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  .offer-deliverables { list-style: none; margin-bottom: 36px; }
+  .offer-deliverables li { font-size: 14px; font-weight: 400; color: var(--text-muted); padding: 9px 0; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+  .offer-deliverables li::before { content: '→'; color: var(--accent); flex-shrink: 0; margin-top: 1px; }
+  .offer-card.amber-theme .offer-deliverables li::before { color: var(--amber); }
+  .offer-card.amber-theme .offer-deliverables-label { color: var(--amber); }
+  .offer-card.amber-theme::before { background: transparent; }
+  .offer-card.amber-theme:hover::before { background: var(--amber); }
+  .ma-callout-details .offer-deliverables li::before { color: var(--magenta); }
+  .ma-callout-details .offer-deliverables-label { color: var(--magenta); }
+  .offer-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .offer-card.featured { background: var(--surface-2); border: 1px solid var(--border-strong); }
+  .offer-card.featured.amber-theme { border: 1px solid rgba(251,191,36,0.3); }
+
+  .offers-footnote { font-size: 13px; font-weight: 300; color: var(--text-dim); margin-top: 28px; line-height: 1.6; }
+  .offers-footnote strong { color: var(--text-muted); font-weight: 500; }
+
+  /* RETAINER BAND */
+  .retainer-band { padding: 72px 0; position: relative; z-index: 1; }
+  .retainer-inner { border: 1px solid var(--green-border); background: linear-gradient(180deg, rgba(0,230,118,0.04), transparent); padding: 44px 48px; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; }
+  .retainer-inner h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .retainer-inner p { font-size: 15px; color: var(--text-muted); font-weight: 300; line-height: 1.7; max-width: 640px; }
+  .retainer-inner .btn-primary { background: var(--green); color: #05231A; white-space: nowrap; }
+  @media (max-width: 820px) { .retainer-inner { grid-template-columns: 1fr; } }
+
+  /* M&A CALLOUT */
+  .ma-callout-section { padding: 80px 0; position: relative; z-index: 1; }
+  .ma-callout { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid rgba(167,139,250,0.18); position: relative; overflow: hidden; }
+  .ma-callout::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #A78BFA 0%, rgba(167,139,250,0.3) 100%); }
+  .ma-callout-content { background: var(--surface); padding: 48px; }
+  .ma-callout-heading { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 16px; }
+  .ma-callout-desc { font-size: 15px; color: var(--text-muted); line-height: 1.75; margin-bottom: 24px; }
+  .ma-callout-price { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 28px; font-weight: 700; color: #A78BFA; letter-spacing: -0.02em; margin-bottom: 28px; }
+  .ma-callout-price span { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400; color: var(--text-dim); letter-spacing: 0; }
+  .ma-callout-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .ma-callout-actions .btn-primary { background: #A78BFA; }
+  .ma-callout-actions .btn-ghost { border-color: rgba(167,139,250,0.3); }
+  .ma-callout-actions .btn-ghost:hover { color: #A78BFA; border-color: #A78BFA; }
+  .ma-callout-details { background: var(--surface); padding: 48px; }
+  @media (max-width: 900px) { .ma-callout { grid-template-columns: 1fr; } }
+
+  /* RESULTS */
+  .results-section { padding: 100px 0 120px; position: relative; z-index: 1; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .results-intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 56px; flex-wrap: wrap; }
+  .results-intro-sub { font-size: 15px; color: var(--text-muted); font-weight: 300; max-width: 380px; line-height: 1.7; }
+  .flip-hint { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); border: 1px solid var(--border); padding: 8px 14px; }
+  .results-stack { display: flex; flex-direction: column; gap: 2px; background: var(--border); }
+  .flip-wrap { perspective: 1400px; cursor: pointer; height: 190px; transition: height 0.5s cubic-bezier(0.4,0,0.2,1); }
+  .flip-card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); }
+  .flip-wrap.flipped .flip-card { transform: rotateX(-180deg); }
+  .flip-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: var(--bg); overflow: hidden; }
+  .flip-face.back { transform: rotateX(180deg); background: var(--surface-2); overflow-y: auto; }
+  .front-inner { display: grid; grid-template-columns: 2fr 1.1fr auto; gap: 48px; align-items: center; padding: 36px 44px; height: 100%; border-left: 2px solid transparent; transition: border-color 0.25s, background 0.2s; }
+  .flip-wrap:not(.flipped):hover .front-inner { border-left-color: var(--green); background: var(--surface); }
+  .front-category { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
+  .front-headline { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 19px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; color: var(--text); }
+  .front-context { font-size: 12px; color: var(--text-dim); margin-top: 8px; }
+  .front-stats { display: flex; flex-direction: column; gap: 16px; }
+  .front-stat-val { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--accent); }
+  .front-stat-label { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+  .front-cta { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; border-left: 1px solid var(--border); padding-left: 40px; height: 100%; justify-content: center; }
+  .front-cta-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); writing-mode: vertical-rl; transform: rotate(180deg); transition: color 0.2s; }
+  .flip-wrap:not(.flipped):hover .front-cta-label { color: var(--green); }
+  .front-cta-arrow { width: 32px; height: 32px; border: 1px solid var(--border-strong); display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s; }
+  .flip-wrap:not(.flipped):hover .front-cta-arrow { background: var(--green-dim); border-color: var(--green); }
+  .back-inner { padding: 40px 44px; height: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; align-items: start; }
+  .back-col-left { border-right: 1px solid var(--border); padding-right: 40px; display: flex; flex-direction: column; height: 100%; }
+  .back-col-mid { border-right: 1px solid var(--border); padding-right: 40px; }
+  .back-col-label { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .back-situation { font-size: 14px; font-weight: 300; color: var(--text-muted); line-height: 1.75; margin-bottom: 24px; flex: 1; }
+  .back-result-block { padding: 14px 16px; border-left: 2px solid var(--green); background: var(--green-dim); }
+  .back-result-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+  .back-result-text { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .back-bullets { list-style: none; }
+  .back-bullets li { font-size: 13px; font-weight: 300; color: var(--text-muted); line-height: 1.55; display: flex; gap: 10px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .back-bullets li:last-child { border-bottom: none; }
+  .back-bullets li::before { content: '→'; font-size: 11px; color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+  .tools-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tool-pill { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 10px; border: 1px solid var(--border-strong); color: var(--accent); background: var(--accent-dim); }
+  .back-close-btn { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-top: 24px; cursor: pointer; border: none; background: none; padding: 0; transition: color 0.2s; }
+  .back-close-btn:hover { color: var(--accent); }
+  .results-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 48px; gap: 24px; flex-wrap: wrap; }
+  .results-footer-note { font-size: 13px; font-weight: 300; color: var(--text-dim); max-width: 460px; line-height: 1.6; }
+  .results-footer-note strong { color: var(--text-muted); font-weight: 500; }
+  .results-footer-cta { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(34,211,238,0.3); padding-bottom: 2px; white-space: nowrap; transition: color 0.2s, border-color 0.2s; }
+  .results-footer-cta:hover { color: #67E8F9; border-color: #67E8F9; }
+  .flip-face.back::-webkit-scrollbar { width: 3px; }
+  .flip-face.back::-webkit-scrollbar-thumb { background: var(--border-strong); }
+
+  /* PRINCIPLES */
+  .principles-section { padding: 100px 0; position: relative; z-index: 1; }
+  .principles-layout { display: grid; grid-template-columns: 320px 1fr; gap: 80px; align-items: start; }
+  .principles-intro h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 46px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin-bottom: 20px; }
+  .principles-intro p { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+  .principle { padding: 26px 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 200px 1fr; gap: 32px; align-items: baseline; }
+  .principle:first-child { border-top: 1px solid var(--border); }
+  .principle-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: -0.01em; color: var(--accent); }
+  .principle-desc { font-size: 15px; font-weight: 300; color: var(--text-muted); line-height: 1.65; }
+
+  /* FOUNDER */
+  .founder-section { padding: 100px 0; position: relative; z-index: 1; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .founder-layout { display: grid; grid-template-columns: 1fr 380px; gap: 80px; align-items: start; }
+  .founder-quote { font-size: 18px; font-weight: 300; color: var(--text-muted); line-height: 1.75; margin-bottom: 22px; }
+  .founder-quote strong { color: var(--text); font-weight: 500; }
+  .founder-sig { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-top: 28px; }
+  .founder-card { background: var(--bg); border: 1px solid var(--border); overflow: hidden; }
+  .founder-img-placeholder { width: 100%; aspect-ratio: 4/5; background: var(--surface-2); display: flex; align-items: center; justify-content: center; }
+  .founder-img-placeholder span { font-size: 11px; font-weight: 500; color: var(--text-dim); letter-spacing: 0.06em; }
+  .founder-card-meta { padding: 20px 24px; border-top: 1px solid var(--border); }
+  .founder-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .founder-title { font-size: 11px; font-weight: 500; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* ICP */
+  .icp-section { padding: 100px 0; position: relative; z-index: 1; }
+  .icp-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 56px; }
+  .icp-col h4 { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .icp-col.yes h4 { color: var(--green); }
+  .icp-col.no h4 { color: var(--red); }
+  .icp-list { list-style: none; }
+  .icp-list li { font-size: 15px; font-weight: 300; color: var(--text-muted); padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; gap: 12px; align-items: flex-start; line-height: 1.5; }
+  .icp-list li span.icon { flex-shrink: 0; font-size: 12px; }
+  .icp-col.yes .icp-list li span.icon { color: var(--green); }
+  .icp-col.no .icp-list li span.icon { color: var(--red); }
+
+  /* TIERS (subtle who-this-serves band) */
+  .tiers-section { padding: 100px 0; position: relative; z-index: 1; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .tiers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); margin-top: 48px; }
+  .tier-item { background: var(--bg); padding: 28px 24px; }
+  .tier-item h5 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: -0.01em; color: var(--text); margin-bottom: 10px; }
+  .tier-item p { font-size: 13px; font-weight: 300; color: var(--text-muted); line-height: 1.6; }
+  @media (max-width: 820px) { .tiers-grid { grid-template-columns: 1fr 1fr; } }
+
+  /* CTA */
+  .cta-section { padding: 100px 0; position: relative; z-index: 1; text-align: center; }
+  .cta-section h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(44px, 7vw, 80px); font-weight: 800; letter-spacing: -0.03em; line-height: 0.96; margin-bottom: 24px; }
+  .cta-section h2 em { font-style: normal; background: linear-gradient(90deg, #00E676 0%, #3DFF9A 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cta-section p { font-size: 16px; color: var(--text-muted); max-width: 480px; margin: 0 auto 48px; line-height: 1.7; }
+  .cta-entry-points { display: flex; gap: 1px; max-width: 820px; margin: 0 auto 40px; background: var(--border); }
+  .cta-entry { flex: 1; background: var(--surface); padding: 28px 24px; text-align: left; text-decoration: none; transition: background 0.2s; display: block; }
+  .cta-entry:hover { background: var(--surface-2); }
+  .cta-entry-price { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 22px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 4px; letter-spacing: -0.01em; }
+  .cta-entry-price.green { color: var(--green); }
+  .cta-entry-name { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 16px; }
+  .cta-entry-action { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+  .cta-entry-action::after { content: '→'; }
+  .cta-contact { font-size: 16px; color: var(--text-muted); margin-top: 8px; }
+  .cta-contact a { color: var(--accent); text-decoration: none; font-weight: 600; border-bottom: 1px solid rgba(34,211,238,0.3); padding-bottom: 2px; }
+  .cta-ma-link { font-size: 14px; color: var(--text-dim); margin-top: 24px; }
+  .cta-ma-link a { color: #A78BFA; text-decoration: none; font-weight: 600; border-bottom: 1px solid rgba(167,139,250,0.3); }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 40px 0; position: relative; z-index: 1; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .footer-logo { display: flex; align-items: center; gap: 9px; text-decoration: none; }
+  .footer-logo svg { width: 22px; height: 22px; }
+  .footer-logo span { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 800; color: var(--text); }
+  .footer-copy { font-size: 12px; color: var(--text-dim); }
+  .footer-links { display: flex; gap: 24px; list-style: none; }
+  .footer-links a { font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-tag { animation: fadeUp 0.6s ease both; }
+  .hero h1 { animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-sub { animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-ctas { animation: fadeUp 0.6s 0.3s ease both; }
+
+  .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; flex-direction: column; gap: 5px; }
+  .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--text-muted); transition: all 0.25s; }
+
+  @media (max-width: 900px) {
+    .offer-card-inner { grid-template-columns: 1fr; gap: 32px; }
+    .principles-layout { grid-template-columns: 1fr; gap: 48px; }
+    .founder-layout { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .nav-toggle { display: flex; }
+    .nav-links { display: none; position: absolute; top: 60px; left: 0; right: 0; background: rgba(11,15,43,0.97); backdrop-filter: blur(16px); flex-direction: column; padding: 24px 32px; gap: 20px; border-bottom: 1px solid var(--border); }
+    .nav-links.open { display: flex; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .icp-layout { grid-template-columns: 1fr; }
+    .principle { grid-template-columns: 1fr; gap: 8px; }
+    .cta-entry-points { flex-direction: column; }
+    .offer-card { padding: 32px 28px; }
+    .front-inner { grid-template-columns: 1fr auto; gap: 24px; padding: 26px 28px; }
+    .front-stats { display: none; }
+    .front-cta { border-left: none; padding-left: 0; }
+    .back-inner { grid-template-columns: 1fr; gap: 22px; padding: 28px; }
+    .back-col-left, .back-col-mid { border-right: none; padding-right: 0; border-bottom: 1px solid var(--border); padding-bottom: 20px; height: auto; }
+    .flip-wrap { height: 150px; }
+    .flip-hint { display: none; }
+    .results-footer { flex-direction: column; align-items: flex-start; }
+    .tiers-grid { grid-template-columns: 1fr; }
+    .retainer-inner { padding: 32px 28px; }
+  }
+
+  /* logo mark helper */
+  .mark { display: inline-block; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg class="mark" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-label="System Integrity Ops">
+        <rect width="400" height="400" rx="72" fill="#0B0F2B"/>
+        <g fill="none" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+          <g stroke="#22D3EE"><path d="M132 92 L92 92 L92 308 L132 308"/><path d="M268 92 L308 92 L308 308 L268 308"/></g>
+          <path d="M158 200 L190 240 L248 142" stroke="#00E676"/>
+        </g>
+      </svg>
+      <span class="nav-logo-text">System Integrity Ops</span>
+    </a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+      <li><a href="#offers">Services</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#who">Who it's for</a></li>
+      <li><a href="#founder">About</a></li>
+      <li><a href="https://calendly.com/melrevenga/30min" class="nav-cta">Book a call</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-tag"><span class="hero-tag-dot"></span> Operator-led RevOps &amp; GTM systems <span class="hero-tag-divider">·</span> Deliverability-grade diagnostics</div>
+    <h1>Built for companies that <em>outgrew their structure.</em></h1>
+    <p class="hero-sub">
+      You grew on relationships, referrals, and people who knew what they were doing. Then the people move on, the tools multiply, and none of it is written down. System Integrity Ops builds the operating structure underneath the growth, so it keeps scaling when the original team, the founder, or the tribal knowledge is no longer in the room. <strong>Visible pipeline, documented operations, and email infrastructure your revenue can rely on.</strong>
+    </p>
+    <div class="hero-ctas">
+      <a href="#offers" class="btn-primary">Start with a diagnostic</a>
+      <a href="#results" class="btn-ghost">See the work</a>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- PROBLEM STRIP -->
+<section class="problem-strip">
+  <div class="container">
+    <div class="label label-lg" style="color: var(--red);">// What breaks first when you scale</div>
+    <div class="problem-grid">
+      <div class="problem-item" data-num="01"><p><strong>Growth outran the structure.</strong> The business grew on relationships and instinct. None of it is documented, so none of it scales, and it all depends on people who might leave.</p></div>
+      <div class="problem-item" data-num="02"><p><strong>Tools multiplied. Architecture didn't.</strong> New CRM, new sending tools, new pipeline, all inheriting the same broken patterns at higher volume. Nobody audits how they connect.</p></div>
+      <div class="problem-item" data-num="03"><p><strong>When something breaks, teams scramble.</strong> A stalled pipeline, a blocked domain, a rep who left with the whole system in their head. Recovery is expensive. Prevention isn't.</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- OFFERS -->
+<section class="offers-section" id="offers">
+  <div class="container">
+    <div class="offers-header">
+      <div>
+        <div class="label">// Entry points</div>
+        <h2 class="section-heading">Where to<br>start.</h2>
+      </div>
+      <p>Operator-delivered. No tool reports. No AI-generated summaries. A direct read on your system, and a plan your team can run. Start with a diagnostic, then go as deep as the operation needs.</p>
+    </div>
+
+    <div class="offer-group-label ops">// The operating-structure path</div>
+    <div class="offer-cards">
+
+      <!-- GTM Systems Audit -->
+      <div class="offer-card">
+        <div class="offer-card-inner">
+          <div>
+            <div class="offer-badge">Start here · All tiers</div>
+            <div class="offer-tiers">For teams doing more and closing less, who can't see where it breaks</div>
+            <h3>GTM Systems<br>Audit</h3>
+            <div class="offer-price">$1,450</div>
+            <div class="offer-meta">Flat fee · 5 business days · USD</div>
+            <p class="offer-desc">Activity is up. Spend is going out. Pipeline isn't responding, and nobody can say why. This is the scoped read that finds where your go-to-market motion leaks time, visibility, and money, and the three things to fix first.</p>
+            <div class="offer-actions">
+              <a href="https://calendly.com/melrevenga/30min" class="btn-primary">Book a fit call</a>
+            </div>
+          </div>
+          <div>
+            <div class="offer-deliverables-label">// Deliverables</div>
+            <ul class="offer-deliverables">
+              <li>45-min operator working session: how the business actually runs, not a template</li>
+              <li>Pipeline and visibility snapshot: what leadership can and cannot see today</li>
+              <li>Operations map: where the business depends on one person's head</li>
+              <li>Top 3 priorities ranked by what breaks first if you don't act</li>
+              <li>Quick-win actions you can start this week</li>
+              <li>Written summary and priorities list for your team</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- RevOps Build -->
+      <div class="offer-card">
+        <div class="offer-card-inner">
+          <div>
+            <div class="offer-badge">Build · Scoped after a diagnostic</div>
+            <div class="offer-tiers">For teams who can't see their pipeline and are leaking money on tools</div>
+            <h3>RevOps<br>Build</h3>
+            <div class="offer-price">From $4,500</div>
+            <div class="offer-meta">Scoped after a diagnostic · USD</div>
+            <p class="offer-desc">The CEO asks a question the pipeline can't answer. The operation lives in one person's head, and that person might leave. The tool stack has accumulated cost nobody has audited. This is the build that makes the pipeline visible, documents the operation, and removes the spend without losing capability.</p>
+            <div class="offer-actions">
+              <a href="https://calendly.com/melrevenga/30min" class="btn-primary">Scope a build</a>
+            </div>
+          </div>
+          <div>
+            <div class="offer-deliverables-label">// What gets built</div>
+            <ul class="offer-deliverables">
+              <li>Pipeline reporting leadership can actually run on, across every motion in one view</li>
+              <li>Documented operating model that removes single-person dependencies</li>
+              <li>CRM structure, deal stages, ownership rules, and handoff protocol</li>
+              <li>Vendor and cost rationalization: spend removed without losing capability</li>
+              <li>Enforcement and standards that survive team turnover</li>
+              <li>Opens into a fractional engagement when you want it run, not just built</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="offer-group-label specialist">// The specialist audit</div>
+    <div class="offer-cards">
+      <!-- Email Deliverability Audit (all-email) -->
+      <div class="offer-card featured amber-theme">
+        <div class="offer-card-inner">
+          <div>
+            <div class="offer-badge offer-badge-amber">Specialist · Your full email surface</div>
+            <div class="offer-tiers">For teams whose revenue depends on email they don't fully control</div>
+            <h3>Email Deliverability<br>Audit</h3>
+            <div class="offer-price amber">From $950</div>
+            <div class="offer-meta">Scoped to your setup · USD</div>
+            <p class="offer-desc">Outbound, onboarding, retention, billing, transactional. The mail your revenue runs on can fail silently, and by the time you see it in the numbers, you have already lost the quarter. This is the independent read on what is stable, what is at risk, and where your single points of failure are, before a reputation event takes them down. Scope runs from a fast signal check to a full system teardown, sized to your setup.</p>
+            <div class="offer-actions">
+              <a href="https://calendly.com/melrevenga/30min" class="btn-primary" style="background:var(--amber);color:#2A1E00;">Book a qualifier</a>
+            </div>
+          </div>
+          <div>
+            <div class="offer-deliverables-label">// Deliverables</div>
+            <ul class="offer-deliverables">
+              <li>Operator review of your full sending surface, not just cold outbound</li>
+              <li>System Integrity Score (0 to 100) calibrated against real failure patterns</li>
+              <li>Authentication and reputation snapshot with meaning, not just data</li>
+              <li>Risks ranked by urgency: what breaks first if you don't act</li>
+              <li>Risk-diversification plan: removing single points of failure across domains and providers</li>
+              <li>Stabilization actions you can start this week, plus a written brief for your team</li>
+              <li>Full teardown scope adds staged 30/60/90-day remediation and enforcement rules</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="offers-footnote">Every diagnostic stands alone, or opens into <strong>fractional and retainer work</strong> when you want the system built and run, not just mapped.</p>
+  </div>
+</section>
+
+<!-- RETAINER BAND -->
+<section class="retainer-band">
+  <div class="container">
+    <div class="retainer-inner">
+      <div>
+        <div class="label" style="color:var(--green);">// Beyond the diagnostic</div>
+        <h3>When you need it built, not just mapped.</h3>
+        <p>Every diagnostic can open into hands-on work: building the pipeline reporting, documenting the operation, rationalizing the tool stack, or rebuilding the email infrastructure. Fractional engagements are scoped after a diagnostic, so you're never buying a retainer blind.</p>
+      </div>
+      <a href="https://calendly.com/melrevenga/30min" class="btn-primary">Talk through a fractional engagement</a>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- M&A CALLOUT -->
+<section class="ma-callout-section" id="ma">
+  <div class="container">
+    <div class="ma-callout">
+      <div class="ma-callout-content">
+        <div class="offer-badge offer-badge-magenta" style="margin-bottom:20px;">M&amp;A · Specialized</div>
+        <h3 class="ma-callout-heading">Evaluating an acquisition?</h3>
+        <p class="ma-callout-desc">Your deal team is the smartest in the room, and rigorous about everything except one thing: email. Most assume email infrastructure is stable. It rarely is. The target's revenue runs on email you cannot see in the deck, customer notifications, billing, onboarding, lifecycle, and almost nobody audits it pre or post-integration. That is exactly where revenue leaks after close, and it becomes your problem on day one. Email Infrastructure Due Diligence gives your deal team a priced, documented picture of what you are inheriting before the wire clears.</p>
+        <div class="ma-callout-price">$6,500 <span>· Single entity · up to 7 business days</span></div>
+        <div class="ma-callout-actions">
+          <a href="https://calendly.com/melrevenga/30min" class="btn-primary">Book a scoping call</a>
+        </div>
+      </div>
+      <div class="ma-callout-details">
+        <div class="offer-deliverables-label">// What your deal team gets</div>
+        <ul class="offer-deliverables">
+          <li>Full email surface review: transactional, lifecycle, billing, onboarding, and outbound</li>
+          <li>Domain portfolio inventory including legacy, subdomain, and parked assets</li>
+          <li>Reputation and authentication health across every sending domain</li>
+          <li>Infrastructure liability register ranked by severity and remediation effort</li>
+          <li>Migration and integration risk mapped against the transaction timeline</li>
+          <li>Pipeline and revenue leakage quantified into estimated dollar impact</li>
+          <li>Executive risk brief with red, yellow, green rating, plus a live review call for the deal team</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="results-section" id="results">
+  <div class="container">
+    <div class="results-intro">
+      <div>
+        <div class="label">// Real engagements</div>
+        <h2 class="section-heading">Work<br><em class="green">done.</em></h2>
+        <p class="results-intro-sub">Real systems. Real constraints. Engagements built from problems that were invisible until they weren't.</p>
+      </div>
+      <div class="flip-hint">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" opacity=".5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        Click any row for the full engagement
+      </div>
+    </div>
+
+    <div class="results-stack">
+
+      <!-- RevOps systemization (non-email proof) -->
+      <div class="flip-wrap" onclick="toggleCard(this)">
+        <div class="flip-card">
+          <div class="flip-face front"><div class="front-inner">
+            <div>
+              <div class="front-category">RevOps Systemization + Cost Control</div>
+              <div class="front-headline">Cut new-hire ramp 6→3 weeks and removed ~$250K in vendor spend without losing capability.</div>
+              <div class="front-context">Multi-brand SaaS · Reporting to CEO · 6 pipelines, one view</div>
+            </div>
+            <div class="front-stats">
+              <div><div class="front-stat-val">~$250K</div><div class="front-stat-label">vendor spend removed</div></div>
+              <div><div class="front-stat-val">6→3 wk</div><div class="front-stat-label">new-hire ramp</div></div>
+            </div>
+            <div class="front-cta"><span class="front-cta-label">See engagement</span><div class="front-cta-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div></div>
+          </div></div>
+          <div class="flip-face back"><div class="back-inner">
+            <div class="back-col-left">
+              <div class="back-col-label">// Situation</div>
+              <p class="back-situation">Outbound revenue ran across 6 brands, but the operation lived in people's heads and the tool stack had accumulated cost nobody had audited. Growth was real; the structure underneath wasn't documented.</p>
+              <div class="back-result-block"><div class="back-result-label">// Result</div><div class="back-result-text">Live pipeline reporting across all 6 pipelines in one view. Ramp halved, campaign launch cut 4→2 weeks, ~$250K in vendor spend removed with capability intact.</div></div>
+            </div>
+            <div class="back-col-mid">
+              <div class="back-col-label">// What we built</div>
+              <ul class="back-bullets">
+                <li>Pipeline reporting layer across 6 brands in a single leadership view</li>
+                <li>Documented operating model that removed single-person dependencies</li>
+                <li>Vendor rationalization: ~$250K removed without losing capability</li>
+                <li>AI-assisted lead cleanup that cut team ramp from 5 weeks to 3</li>
+                <li>Enforcement and standards that survived team turnover</li>
+              </ul>
+            </div>
+            <div class="back-col-right">
+              <div class="back-col-label">// Scope</div>
+              <div class="tools-grid"><span class="tool-pill">Pipedrive</span><span class="tool-pill">RevOps</span><span class="tool-pill">Vendor Audit</span><span class="tool-pill">Process Docs</span><span class="tool-pill">AI Ops</span></div>
+              <button class="back-close-btn" onclick="closeCard(event,this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>Close</button>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- Post-Merger Integration -->
+      <div class="flip-wrap" onclick="toggleCard(this)">
+        <div class="flip-card">
+          <div class="flip-face front"><div class="front-inner">
+            <div>
+              <div class="front-category">Post-Merger Integration</div>
+              <div class="front-headline">Key contributor to a 10-workstream, 545-activity integration that grew the company $350M to ~$700M and beat synergy targets by ~$60M.</div>
+              <div class="front-context">EdTech · Post-merger integration · Top accounts retained through the transition</div>
+            </div>
+            <div class="front-stats">
+              <div><div class="front-stat-val">~$60M</div><div class="front-stat-label">synergies above plan</div></div>
+              <div><div class="front-stat-val">545</div><div class="front-stat-label">activities across 10 workstreams</div></div>
+            </div>
+            <div class="front-cta"><span class="front-cta-label">See engagement</span><div class="front-cta-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div></div>
+          </div></div>
+          <div class="flip-face back"><div class="back-inner">
+            <div class="back-col-left">
+              <div class="back-col-label">// Situation</div>
+              <p class="back-situation">A merger that had to deliver. Two organizations, overlapping systems and accounts, and a synergy plan the deal depended on. Integration meant reconciling operations, retaining the accounts that mattered, and hitting targets while the business kept running.</p>
+              <div class="back-result-block"><div class="back-result-label">// Result</div><div class="back-result-text">Grew the company from $350M to roughly $700M as the number one EdTech specialty reseller in its category. Beat synergy targets by about $60M, with top accounts retained through the transition.</div></div>
+            </div>
+            <div class="back-col-mid">
+              <div class="back-col-label">// Contribution</div>
+              <ul class="back-bullets">
+                <li>Key cross-functional contributor across 10 workstreams and 545 tracked activities</li>
+                <li>Operational reconciliation that protected capability while systems and teams combined</li>
+                <li>Account retention through the transition, keeping the revenue the deal was built on</li>
+                <li>Executive-facing materials supporting the integration and investor narrative</li>
+                <li>The pressure that shaped the operating model: integration under a live P&amp;L, not theory</li>
+              </ul>
+            </div>
+            <div class="back-col-right">
+              <div class="back-col-label">// Scope</div>
+              <div class="tools-grid"><span class="tool-pill">PMI</span><span class="tool-pill">10 Workstreams</span><span class="tool-pill">Account Retention</span><span class="tool-pill">Synergy Delivery</span></div>
+              <button class="back-close-btn" onclick="closeCard(event,this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>Close</button>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- Infrastructure Build + Launch -->
+      <div class="flip-wrap" onclick="toggleCard(this)">
+        <div class="flip-card">
+          <div class="flip-face front"><div class="front-inner">
+            <div>
+              <div class="front-category">Infrastructure Build + Launch</div>
+              <div class="front-headline">Architected a 1,000-mailbox, 300-domain outbound engine from zero before the pre-IPO window.</div>
+              <div class="front-context">Pre-IPO AI Agents SaaS · Full system build · Clay enrichment · CRM automation</div>
+            </div>
+            <div class="front-stats">
+              <div><div class="front-stat-val">3%</div><div class="front-stat-label">reply rate at scale</div></div>
+              <div><div class="front-stat-val">+20%</div><div class="front-stat-label">above positive-reply target</div></div>
+            </div>
+            <div class="front-cta"><span class="front-cta-label">See engagement</span><div class="front-cta-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div></div>
+          </div></div>
+          <div class="flip-face back"><div class="back-inner">
+            <div class="back-col-left">
+              <div class="back-col-label">// Situation</div>
+              <p class="back-situation">No outbound infrastructure in place. Leadership needed a complete sending system designed, built, and documented before go-to-market, with a team that could run it without the operator in the room. Timing was fixed: the pre-IPO window.</p>
+              <div class="back-result-block"><div class="back-result-label">// Result</div><div class="back-result-text">3% reply rate at scale. Positive reply rate landed 20% above target inside the pre-IPO window. Zero block events. Team took over a documented, running system with automated deal creation in Pipedrive.</div></div>
+            </div>
+            <div class="back-col-mid">
+              <div class="back-col-label">// What we built</div>
+              <ul class="back-bullets">
+                <li>1,000 mailboxes across ~300 domains, chosen for 30–40% cost savings and automated DNS provisioning</li>
+                <li>Brand-new and prewarmed mailboxes sequenced into the warmup calendar without reputation risk</li>
+                <li>Clay enrichment and AI personalization integrated into the sequence workflow</li>
+                <li>Deliverability monitoring across the full domain fleet: SPF, DKIM, DMARC drift caught at scale</li>
+                <li>Positive-reply routing and deal-creation automation built directly into Pipedrive</li>
+                <li>Written enforcement model: send limits, escalation triggers, rep onboarding checklist</li>
+              </ul>
+            </div>
+            <div class="back-col-right">
+              <div class="back-col-label">// Tools used</div>
+              <div class="tools-grid"><span class="tool-pill">Zapmail</span><span class="tool-pill">Instantly</span><span class="tool-pill">Clay</span><span class="tool-pill">EmailGuard</span><span class="tool-pill">Pipedrive</span></div>
+              <button class="back-close-btn" onclick="closeCard(event,this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>Close</button>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- Multi-Brand Migration -->
+      <div class="flip-wrap" onclick="toggleCard(this)">
+        <div class="flip-card">
+          <div class="flip-face front"><div class="front-inner">
+            <div>
+              <div class="front-category">Multi-Brand Migration + Optimization</div>
+              <div class="front-headline">Identified broken infrastructure at 1M emails/month. Migrated the stack. Reply rate doubled.</div>
+              <div class="front-context">Multi-brand B2B · Global sending · Silent infrastructure failure at scale</div>
+            </div>
+            <div class="front-stats">
+              <div><div class="front-stat-val">2×</div><div class="front-stat-label">reply rate post-migration</div></div>
+              <div><div class="front-stat-val">1M/mo</div><div class="front-stat-label">volume · zero incidents</div></div>
+            </div>
+            <div class="front-cta"><span class="front-cta-label">See engagement</span><div class="front-cta-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div></div>
+          </div></div>
+          <div class="flip-face back"><div class="back-inner">
+            <div class="back-col-left">
+              <div class="back-col-label">// Situation</div>
+              <p class="back-situation">Multi-brand operation sending 1M emails/month with declining reply rates and no explanation. The sending was happening. The results weren't. Root cause turned out to be the sending platform itself, not the domains or the copy.</p>
+              <div class="back-result-block"><div class="back-result-label">// Result</div><div class="back-result-text">Reply rate doubled. Positive reply rate doubled. Same volume, same copy, same data. The infrastructure was the constraint. Migration completed without a single delivery incident.</div></div>
+            </div>
+            <div class="back-col-mid">
+              <div class="back-col-label">// What we found + fixed</div>
+              <ul class="back-bullets">
+                <li>Diagnosed the sending platform as the primary failure point at this volume</li>
+                <li>Ran controlled cross-platform testing before committing to migration</li>
+                <li>Migrated the full sending operation once test results validated the difference</li>
+                <li>Rebuilt authentication (SPF/DKIM/DMARC) across all sending domains</li>
+                <li>Post-migration monitoring cadence in place from day one to catch drift early</li>
+              </ul>
+            </div>
+            <div class="back-col-right">
+              <div class="back-col-label">// Tools used</div>
+              <div class="tools-grid"><span class="tool-pill">Instantly</span><span class="tool-pill">DNS / Auth Rebuild</span><span class="tool-pill">Seed Testing</span><span class="tool-pill">Postmaster</span></div>
+              <button class="back-close-btn" onclick="closeCard(event,this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>Close</button>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- M&A DD -->
+      <div class="flip-wrap" onclick="toggleCard(this)">
+        <div class="flip-card">
+          <div class="flip-face front"><div class="front-inner">
+            <div>
+              <div class="front-category">M&amp;A Revenue-Operation Due Diligence</div>
+              <div class="front-headline">Ran a pre-close audit. Surfaced degraded domains, auth failures, and pipeline leakage the buyer didn't know they were inheriting.</div>
+              <div class="front-context">M&amp;A firm · Pre-close audit · Deal-team deliverable · Liability register</div>
+            </div>
+            <div class="front-stats">
+              <div><div class="front-stat-val">Pre-close</div><div class="front-stat-label">risk identified + priced</div></div>
+              <div><div class="front-stat-val">Full</div><div class="front-stat-label">liability register + exec brief</div></div>
+            </div>
+            <div class="front-cta"><span class="front-cta-label">See engagement</span><div class="front-cta-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div></div>
+          </div></div>
+          <div class="flip-face back"><div class="back-inner">
+            <div class="back-col-left">
+              <div class="back-col-label">// Situation</div>
+              <p class="back-situation">An M&amp;A firm needed the target's revenue operation assessed before close. Outbound was a core revenue driver, but reputation, authentication health, and operational continuity are invisible in standard due diligence. Inherited problems become the buyer's problems on day one.</p>
+              <div class="back-result-block"><div class="back-result-label">// Result</div><div class="back-result-text">Buyer entered close with a priced, documented picture of what they were inheriting. Remediation costs and timeline were quantified. Infrastructure risk became a negotiation line item, not a post-close surprise.</div></div>
+            </div>
+            <div class="back-col-mid">
+              <div class="back-col-label">// What we surfaced</div>
+              <ul class="back-bullets">
+                <li>Sender reputation already degraded on key domains: remediation cost and timeline quantified</li>
+                <li>Authentication misconfigurations creating compliance exposure</li>
+                <li>Institutional knowledge concentrated in one person not staying post-close, undocumented</li>
+                <li>Pipeline leakage already occurring, mapped to estimated revenue impact</li>
+                <li>Domain ownership history with overlap risk the buyer would inherit</li>
+              </ul>
+            </div>
+            <div class="back-col-right">
+              <div class="back-col-label">// Tools used</div>
+              <div class="tools-grid"><span class="tool-pill">Postmaster</span><span class="tool-pill">Blacklist Monitor</span><span class="tool-pill">DNS / Auth Audit</span><span class="tool-pill">Risk Register</span></div>
+              <button class="back-close-btn" onclick="closeCard(event,this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>Close</button>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="results-footer">
+      <p class="results-footer-note">All engagements are operator-delivered. <strong>No AI reports. No templated checklists.</strong> A direct read on the system, with a plan the team can execute.</p>
+      <a href="#offers" class="results-footer-cta">See available services →</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR (tiers) -->
+<section class="tiers-section" id="who">
+  <div class="container">
+    <div class="label">// Who this serves</div>
+    <h2 class="section-heading">Built for teams that<br><em class="green">outgrew their structure.</em></h2>
+    <div class="tiers-grid">
+      <div class="tier-item"><h5>SaaS &amp; EdTech</h5><p>RevOps and growth leaders scaling pipeline and outbound who need structure, not more tactics.</p></div>
+      <div class="tier-item"><h5>Fintech &amp; lifecycle</h5><p>Consumer, fintech, and marketplace teams running high-volume lifecycle mail with real deliverability stakes.</p></div>
+      <div class="tier-item"><h5>Consulting &amp; services</h5><p>Founder-led firms running outbound to land clients, without deliverability or GTM systems in-house.</p></div>
+      <div class="tier-item"><h5>Industrial &amp; B2B</h5><p>Construction, industrial, and B2B-services teams building a GTM system into a market that has none.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section class="principles-section" id="principles">
+  <div class="container">
+    <div class="principles-layout">
+      <div class="principles-intro">
+        <div class="label">// How we operate</div>
+        <h2>Operating<br>Principles.</h2>
+        <p>These aren't values. They're how we work, and how we expect clients to work.</p>
+      </div>
+      <div class="principles-list">
+        <div class="principle"><div class="principle-name">Learn first,<br>then build</div><div class="principle-desc">We never come into a business already knowing it. We learn the operation, the numbers, and the people first, then build.</div></div>
+        <div class="principle"><div class="principle-name">System integrity<br>over hacks</div><div class="principle-desc">Sustained performance comes from coherent system design, not short-term tactics or isolated optimizations.</div></div>
+        <div class="principle"><div class="principle-name">Separation<br>before scale</div><div class="principle-desc">Domains, identities, and workflows must be isolated by purpose before volume is introduced.</div></div>
+        <div class="principle"><div class="principle-name">Prevention<br>over recovery</div><div class="principle-desc">Failures are expensive to reverse. Systems should be designed to avoid degradation in advance.</div></div>
+        <div class="principle"><div class="principle-name">Standards<br>over opinions</div><div class="principle-desc">Scalable operations require defined standards and enforcement, not individual preference or debate.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="founder-section" id="founder">
+  <div class="container">
+    <div class="founder-layout">
+      <div class="founder-content">
+        <div class="label">// The operator behind System Integrity Ops</div>
+        <h2 class="section-heading" style="margin-bottom:32px;">Built from<br>the <em class="green">inside out.</em></h2>
+        <p class="founder-quote">I don't come from marketing or email service providers. I come from operations. Fifteen years building and scaling revenue infrastructure inside SaaS, EdTech, and consulting. Reporting to CEOs and Presidents, learning the operation and the numbers first, then building.</p>
+        <p class="founder-quote"><strong>I've scaled an RFP function from $5M to $30M. I've been a key contributor to a post-merger integration that beat synergy targets by ~$60M. I've run RevOps across 6 brands doing $100M+ a year</strong>. Pipeline, reporting, cost control, and the outbound engine underneath it.</p>
+        <p class="founder-quote">Email is where I learned the discipline hardest. When email is the product, a broken sending system stops revenue, so I learned deliverability under real load, scaling outbound from 200K to 2M+ emails/month and building enforcement that survived team turnover.</p>
+        <p class="founder-quote">System Integrity Ops exists because I kept seeing the same pattern: teams hire for growth, then scramble to build structure after something breaks. <strong>Prevention is cheaper. Structure is what scales.</strong></p>
+        <div class="founder-sig">Melissa Yilaly · Founder</div>
+      </div>
+      <div>
+        <div class="founder-card">
+          <div class="founder-img-placeholder"><span>MELISSA YILALY</span></div>
+          <div class="founder-card-meta"><div class="founder-name">Melissa Yilaly</div><div class="founder-title">Founder · System Integrity Ops</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ICP -->
+<section class="icp-section">
+  <div class="container">
+    <div class="label">// Fit criteria</div>
+    <h2 class="section-heading">This is for you<br><em class="green">if.</em></h2>
+    <div class="icp-layout">
+      <div class="icp-col yes">
+        <h4>// This is for you</h4>
+        <ul class="icp-list">
+          <li><span class="icon">→</span> You've grown on relationships and instinct, and the structure hasn't caught up</li>
+          <li><span class="icon">→</span> You're a CEO, COO, or founder whose business outran its documentation</li>
+          <li><span class="icon">→</span> You're a RevOps leader or operator who owns the pipeline and the sending stack</li>
+          <li><span class="icon">→</span> You're sending 10K+ emails/month across multiple domains</li>
+          <li><span class="icon">→</span> You're scaling outbound and can't afford to guess what breaks first</li>
+          <li><span class="icon">→</span> You're integrating an acquisition, or preparing for one</li>
+        </ul>
+      </div>
+      <div class="icp-col no">
+        <h4>// This is not for you</h4>
+        <ul class="icp-list">
+          <li><span class="icon">✕</span> You want copywriting, offer rewrites, or campaign creative</li>
+          <li><span class="icon">✕</span> You want day-to-day campaign management</li>
+          <li><span class="icon">✕</span> You need inbox placement guarantees</li>
+          <li><span class="icon">✕</span> You're not ready to change how the system operates</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="label" style="justify-content:center; display:flex; margin-bottom:32px;">// Start here</div>
+    <h2>Don't guess<br>what breaks <em>first.</em></h2>
+    <p>Start with a diagnostic. Every engagement begins with a direct read on the system, then goes as deep as you need.</p>
+    <div class="cta-entry-points">
+      <a href="https://calendly.com/melrevenga/30min" class="cta-entry">
+        <span class="cta-entry-price">$1,450</span>
+        <span class="cta-entry-name">GTM Systems Audit · 5 days</span>
+        <span class="cta-entry-action">Book a fit call</span>
+      </a>
+      <a href="https://calendly.com/melrevenga/30min" class="cta-entry">
+        <span class="cta-entry-price green">From $4,500</span>
+        <span class="cta-entry-name">RevOps Build · scoped</span>
+        <span class="cta-entry-action">Scope a build</span>
+      </a>
+      <a href="https://calendly.com/melrevenga/30min" class="cta-entry">
+        <span class="cta-entry-price green">From $950</span>
+        <span class="cta-entry-name">Email Deliverability Audit</span>
+        <span class="cta-entry-action">Book a qualifier</span>
+      </a>
+    </div>
+    <div class="cta-ma-link">Evaluating an acquisition? <a href="#ma">See Email Infrastructure Due Diligence, $6,500 →</a></div>
+    <div class="cta-contact" style="margin-top:16px;">Not sure which one? <a href="https://calendly.com/melrevenga/30min">Book a 15-min qualifier</a>.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="footer-logo">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-label="System Integrity Ops">
+        <rect width="400" height="400" rx="72" fill="#0B0F2B"/>
+        <g fill="none" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+          <g stroke="#22D3EE"><path d="M132 92 L92 92 L92 308 L132 308"/><path d="M268 92 L308 92 L308 308 L268 308"/></g>
+          <path d="M158 200 L190 240 L248 142" stroke="#00E676"/>
+        </g>
+      </svg>
+      <span>System Integrity Ops</span>
+    </a>
+    <ul class="footer-links">
+      <li><a href="#offers">Services</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#ma">M&amp;A</a></li>
+      <li><a href="#founder">About</a></li>
+    </ul>
+    <div class="footer-copy">© 2026 System Integrity Ops. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+function getBackHeight(wrap) {
+  const back = wrap.querySelector('.flip-face.back');
+  const inner = wrap.querySelector('.back-inner');
+  if (!inner) return 440;
+  back.style.visibility='hidden'; back.style.overflow='visible'; back.style.position='relative'; back.style.transform='none';
+  const h = inner.offsetHeight;
+  back.style.visibility=''; back.style.overflow=''; back.style.position=''; back.style.transform='';
+  return Math.max(h + 80, 360);
+}
+function toggleCard(el) {
+  const isFlipped = el.classList.contains('flipped');
+  document.querySelectorAll('.flip-wrap.flipped').forEach(c => { c.classList.remove('flipped'); c.style.height='190px'; });
+  if (!isFlipped) { el.style.height = getBackHeight(el) + 'px'; el.classList.add('flipped'); }
+}
+function closeCard(e, btn) { e.stopPropagation(); const wrap = btn.closest('.flip-wrap'); wrap.classList.remove('flipped'); wrap.style.height='190px'; }
+document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open')));
+</script>
+</body>
+</html>
