@@ -133,11 +133,10 @@
   .offer-card-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
 
   .offer-badge { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-dim); border: 1px solid var(--border-strong); padding: 5px 12px; border-radius: 4px; display: inline-block; margin-bottom: 24px; align-self: flex-start; }
-  .offer-badge-green { color: var(--green); background: var(--green-dim); border-color: var(--green-border); }
-  .offer-badge-amber { color: #FBBF24; background: rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.3); }
   .offer-badge-magenta { color: #A78BFA; background: rgba(167,139,250,0.07); border-color: rgba(167,139,250,0.28); }
 
-  .offer-tiers { font-size: 11px; font-weight: 500; letter-spacing: 0.04em; color: var(--text-dim); margin-bottom: 20px; text-transform: uppercase; }
+  .offer-audience { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; line-height: 1.4; color: var(--accent); margin-bottom: 24px; letter-spacing: -0.01em; }
+  .offer-audience.amber { color: var(--amber); }
   .offer-card h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 12px; }
   .offer-price { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 28px; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; margin-bottom: 4px; }
   .offer-price.green { color: var(--green); }
@@ -250,8 +249,6 @@
   .founder-quote strong { color: var(--text); font-weight: 500; }
   .founder-sig { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-top: 28px; }
   .founder-card { background: var(--bg); border: 1px solid var(--border); overflow: hidden; }
-  .founder-img-placeholder { width: 100%; aspect-ratio: 4/5; background: var(--surface-2); display: flex; align-items: center; justify-content: center; }
-  .founder-img-placeholder span { font-size: 11px; font-weight: 500; color: var(--text-dim); letter-spacing: 0.06em; }
   .founder-card-meta { padding: 20px 24px; border-top: 1px solid var(--border); }
   .founder-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
   .founder-title { font-size: 11px; font-weight: 500; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
@@ -286,6 +283,8 @@
   .cta-entry:hover { background: var(--surface-2); }
   .cta-entry-price { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 22px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 4px; letter-spacing: -0.01em; }
   .cta-entry-price.green { color: var(--green); }
+  .cta-entry-price.amber { color: var(--amber); }
+  .cta-entry-action.amber { color: var(--amber); }
   .cta-entry-name { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 16px; }
   .cta-entry-action { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 8px; }
   .cta-entry-action::after { content: '→'; }
@@ -404,6 +403,22 @@
 
 <hr class="section-divider">
 
+<!-- WHO IT'S FOR (tiers) -->
+<section class="tiers-section" id="who">
+  <div class="container">
+    <div class="label">// Who this serves</div>
+    <h2 class="section-heading">You'll recognize<br><em class="green">your team here.</em></h2>
+    <div class="tiers-grid">
+      <div class="tier-item"><h5>SaaS &amp; EdTech</h5><p>RevOps and growth leaders scaling pipeline and outbound who need structure, not more tactics.</p></div>
+      <div class="tier-item"><h5>Fintech &amp; lifecycle</h5><p>Consumer, fintech, and marketplace teams running high-volume lifecycle mail with real deliverability stakes.</p></div>
+      <div class="tier-item"><h5>Consulting &amp; services</h5><p>Founder-led firms running outbound to land clients, without deliverability or GTM systems in-house.</p></div>
+      <div class="tier-item"><h5>Industrial &amp; B2B</h5><p>Construction, industrial, and B2B-services teams building a GTM system into a market that has none.</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
 <!-- OFFERS -->
 <section class="offers-section" id="offers">
   <div class="container">
@@ -422,8 +437,7 @@
       <div class="offer-card">
         <div class="offer-card-inner">
           <div>
-            <div class="offer-badge">Start here · All tiers</div>
-            <div class="offer-tiers">For teams doing more and closing less, who can't see where it breaks</div>
+            <div class="offer-audience">For teams doing more and closing less, who can't see where it breaks.</div>
             <h3>GTM Systems<br>Audit</h3>
             <div class="offer-price">$1,450</div>
             <div class="offer-meta">Flat fee · 5 business days · USD</div>
@@ -450,8 +464,7 @@
       <div class="offer-card">
         <div class="offer-card-inner">
           <div>
-            <div class="offer-badge">Build · Scoped after a diagnostic</div>
-            <div class="offer-tiers">For teams who can't see their pipeline and are leaking money on tools</div>
+            <div class="offer-audience">For teams who can't see their pipeline and are leaking money on tools.</div>
             <h3>RevOps<br>Build</h3>
             <div class="offer-price">From $4,500</div>
             <div class="offer-meta">Scoped after a diagnostic · USD</div>
@@ -482,8 +495,7 @@
       <div class="offer-card featured amber-theme">
         <div class="offer-card-inner">
           <div>
-            <div class="offer-badge offer-badge-amber">Specialist · Your full email surface</div>
-            <div class="offer-tiers">For teams whose revenue depends on email they don't fully control</div>
+            <div class="offer-audience amber">For teams whose revenue depends on email they don't fully control.</div>
             <h3>Email Deliverability<br>Audit</h3>
             <div class="offer-price amber">From $950</div>
             <div class="offer-meta">Scoped to your setup · USD</div>
@@ -534,7 +546,7 @@
       <div class="ma-callout-content">
         <div class="offer-badge offer-badge-magenta" style="margin-bottom:20px;">M&amp;A · Specialized</div>
         <h3 class="ma-callout-heading">Evaluating an acquisition?</h3>
-        <p class="ma-callout-desc">Your deal team is the smartest in the room, and rigorous about everything except one thing: email. Most assume email infrastructure is stable. It rarely is. The target's revenue runs on email you cannot see in the deck, customer notifications, billing, onboarding, lifecycle, and almost nobody audits it pre or post-integration. That is exactly where revenue leaks after close, and it becomes your problem on day one. Email Infrastructure Due Diligence gives your deal team a priced, documented picture of what you are inheriting before the wire clears.</p>
+        <p class="ma-callout-desc">Your deal team is the smartest in the room, and rigorous about everything except one thing: email. Most assume email infrastructure is stable. It rarely is. The target's revenue runs on email you cannot see in the deck, customer notifications, billing, onboarding, lifecycle, and almost nobody audits it pre or post-integration. That is exactly where revenue leaks after close, and it becomes your problem on day one. <strong>Email Infrastructure Due Diligence</strong> gives your deal team a priced, documented picture of what you are inheriting before the wire clears.</p>
         <div class="ma-callout-price">$6,500 <span>· Single entity · up to 7 business days</span></div>
         <div class="ma-callout-actions">
           <a href="https://calendly.com/melrevenga/30min" class="btn-primary">Book a scoping call</a>
@@ -579,7 +591,7 @@
           <div class="flip-face front"><div class="front-inner">
             <div>
               <div class="front-category">RevOps Systemization + Cost Control</div>
-              <div class="front-headline">Cut new-hire ramp 6→3 weeks and removed ~$250K in vendor spend without losing capability.</div>
+              <div class="front-headline">Cut new hire ramp 6→3 weeks and removed ~$250K in vendor spend without losing capability.</div>
               <div class="front-context">Multi-brand SaaS · Reporting to CEO · 6 pipelines, one view</div>
             </div>
             <div class="front-stats">
@@ -783,20 +795,6 @@
   </div>
 </section>
 
-<!-- WHO IT'S FOR (tiers) -->
-<section class="tiers-section" id="who">
-  <div class="container">
-    <div class="label">// Who this serves</div>
-    <h2 class="section-heading">Built for teams that<br><em class="green">outgrew their structure.</em></h2>
-    <div class="tiers-grid">
-      <div class="tier-item"><h5>SaaS &amp; EdTech</h5><p>RevOps and growth leaders scaling pipeline and outbound who need structure, not more tactics.</p></div>
-      <div class="tier-item"><h5>Fintech &amp; lifecycle</h5><p>Consumer, fintech, and marketplace teams running high-volume lifecycle mail with real deliverability stakes.</p></div>
-      <div class="tier-item"><h5>Consulting &amp; services</h5><p>Founder-led firms running outbound to land clients, without deliverability or GTM systems in-house.</p></div>
-      <div class="tier-item"><h5>Industrial &amp; B2B</h5><p>Construction, industrial, and B2B-services teams building a GTM system into a market that has none.</p></div>
-    </div>
-  </div>
-</section>
-
 <!-- PRINCIPLES -->
 <section class="principles-section" id="principles">
   <div class="container">
@@ -885,14 +883,14 @@
         <span class="cta-entry-action">Book a fit call</span>
       </a>
       <a href="https://calendly.com/melrevenga/30min" class="cta-entry">
-        <span class="cta-entry-price green">From $4,500</span>
+        <span class="cta-entry-price">From $4,500</span>
         <span class="cta-entry-name">RevOps Build · scoped</span>
         <span class="cta-entry-action">Scope a build</span>
       </a>
       <a href="https://calendly.com/melrevenga/30min" class="cta-entry">
-        <span class="cta-entry-price green">From $950</span>
+        <span class="cta-entry-price amber">From $950</span>
         <span class="cta-entry-name">Email Deliverability Audit</span>
-        <span class="cta-entry-action">Book a qualifier</span>
+        <span class="cta-entry-action amber">Book a qualifier</span>
       </a>
     </div>
     <div class="cta-ma-link">Evaluating an acquisition? <a href="#ma">See Email Infrastructure Due Diligence, $6,500 →</a></div>
