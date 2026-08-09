@@ -122,6 +122,64 @@
   .section-heading em.green { background: linear-gradient(90deg, #00E676 0%, #3DFF9A 100%); -webkit-background-clip: text; background-clip: text; }
 
   /* OFFERS */
+  /* GTM SCORECARD */
+  .scorecard-section { padding: 100px 0; position: relative; z-index: 1; }
+  .scorecard-section .label { margin-bottom: 18px; }
+  .sc-heading { font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(30px, 4.4vw, 46px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.08; margin-bottom: 14px; }
+  .sc-heading em { font-style: normal; background: linear-gradient(90deg, #22D3EE 0%, #67E8F9 50%, #A5F3FC 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .sc-sub { font-size: 16px; font-weight: 300; color: var(--text-muted); max-width: 640px; line-height: 1.7; margin-bottom: 44px; }
+  .sc-composite { display: grid; grid-template-columns: 1fr auto 1fr; background: var(--border); border: 1px solid var(--border); border-radius: 8px 8px 0 0; overflow: hidden; margin-bottom: 2px; }
+  .sc-comp-cell { padding: 20px 26px; display: flex; align-items: center; gap: 18px; }
+  .sc-comp-cell.before { background: linear-gradient(120deg, rgba(248,113,113,0.06), rgba(11,15,43,0)); }
+  .sc-comp-cell.after { background: linear-gradient(240deg, rgba(0,230,118,0.07), rgba(11,15,43,0)); justify-content: flex-end; text-align: right; }
+  .sc-comp-mid { background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 0 20px; min-width: 74px; }
+  .sc-comp-arrow { color: var(--accent); font-size: 20px; }
+  .sc-comp-num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 46px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+  .sc-comp-cell.before .sc-comp-num { color: var(--red); }
+  .sc-comp-cell.after .sc-comp-num { color: var(--green); }
+  .sc-comp-meta { display: flex; flex-direction: column; gap: 3px; }
+  .sc-comp-cell.after .sc-comp-meta { align-items: flex-end; }
+  .sc-comp-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .sc-comp-cell.before .sc-comp-tag { color: var(--red); }
+  .sc-comp-cell.after .sc-comp-tag { color: var(--green); }
+  .sc-comp-cap { font-size: 11px; color: var(--text-dim); letter-spacing: 0.06em; }
+  .sc-colhead { display: grid; grid-template-columns: 1fr 92px 56px 92px; padding: 12px 22px; background: var(--surface-2); border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+  .sc-colhead span { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); }
+  .sc-colhead .ch-b { text-align: center; color: var(--red); }
+  .sc-colhead .ch-a { text-align: center; color: var(--green); }
+  .sc-colhead .ch-g { text-align: center; }
+  .sc-rows { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; overflow: hidden; }
+  .sc-row { background: var(--surface); padding: 16px 22px; display: grid; grid-template-columns: 1fr 92px 56px 92px; align-items: center; transition: background 0.2s; }
+  .sc-row:hover { background: var(--surface-2); }
+  .sc-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: -0.01em; color: var(--text); display: block; }
+  .sc-desc { font-size: 12.5px; color: var(--text-dim); line-height: 1.4; font-weight: 300; display: block; margin-top: 3px; padding-right: 16px; }
+  .sc-cell { text-align: center; }
+  .sc-score { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; }
+  .sc-cell.b .sc-score { color: var(--red); }
+  .sc-cell.a .sc-score { color: var(--green); }
+  .sc-state { display: block; font-size: 9.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 3px; }
+  .sc-cell.b .sc-state { color: rgba(248,113,113,0.75); }
+  .sc-cell.a .sc-state { color: rgba(0,230,118,0.8); }
+  .sc-gap { text-align: center; }
+  .sc-gap span { font-size: 11px; font-weight: 700; color: var(--accent); background: var(--accent-dim); border: 1px solid var(--border-strong); border-radius: 100px; padding: 3px 9px; }
+  .sc-foot { margin-top: 22px; font-size: 13.5px; color: var(--text-dim); line-height: 1.7; }
+  .sc-foot strong { color: var(--text-muted); font-weight: 500; }
+  @media (max-width: 720px) {
+    .sc-composite { grid-template-columns: 1fr; }
+    .sc-comp-mid { padding: 8px 0; min-width: 0; }
+    .sc-comp-arrow { transform: rotate(90deg); }
+    .sc-comp-cell.after { justify-content: flex-start; text-align: left; }
+    .sc-comp-cell.after .sc-comp-meta { align-items: flex-start; }
+    .sc-colhead { display: none; }
+    .sc-row { grid-template-columns: 1fr; gap: 10px; }
+    .sc-desc { padding-right: 0; }
+    .sc-cell, .sc-gap { text-align: left; display: flex; align-items: baseline; gap: 10px; }
+    .sc-state { margin-top: 0; }
+    .sc-cell.b::before { content: 'Before'; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); width: 52px; display: inline-block; }
+    .sc-cell.a::before { content: 'After'; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); width: 52px; display: inline-block; }
+    .sc-gap::before { content: 'Shift'; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); width: 52px; display: inline-block; }
+  }
+
   .offers-section { padding: 100px 0; position: relative; z-index: 1; }
   .offers-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 56px; gap: 32px; flex-wrap: wrap; }
   .offers-header p { font-size: 16px; color: var(--text-muted); font-weight: 300; max-width: 400px; line-height: 1.7; }
@@ -147,6 +205,9 @@
   .offer-deliverables { list-style: none; margin-bottom: 36px; }
   .offer-deliverables li { font-size: 14px; font-weight: 400; color: var(--text-muted); padding: 9px 0; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
   .offer-deliverables li::before { content: '→'; color: var(--accent); flex-shrink: 0; margin-top: 1px; }
+  .offer-deliverables.numbered { counter-reset: deliv; }
+  .offer-deliverables.numbered li { counter-increment: deliv; align-items: flex-start; }
+  .offer-deliverables.numbered li::before { content: counter(deliv) '.'; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 800; color: var(--accent); background: none; border: none; min-width: 16px; margin-top: 0; }
   .offer-card.amber-theme .offer-deliverables li::before { color: var(--amber); }
   .offer-card.amber-theme .offer-deliverables-label { color: var(--amber); }
   .offer-card.amber-theme::before { background: transparent; }
@@ -403,11 +464,85 @@
 
 <hr class="section-divider">
 
+<!-- GTM SCORECARD (before / after) -->
+<section class="scorecard-section" id="scorecard">
+  <div class="container">
+    <div class="label">// What experience finds that tools miss</div>
+    <h2 class="sc-heading">50+ go-to-market systems audited.<br><em>Every one leaked where the team couldn't see.</em></h2>
+    <p class="sc-sub">The audit scores six components of your revenue engine against a fixed baseline, from who you target to whether your mail even lands. Not a redesign. A read on what's actually there, and the order to fix it.</p>
+
+    <div class="sc-composite">
+      <div class="sc-comp-cell before">
+        <div class="sc-comp-num">56</div>
+        <div class="sc-comp-meta">
+          <span class="sc-comp-tag">Baseline · As found</span>
+          <span class="sc-comp-cap">Composite GTM score</span>
+        </div>
+      </div>
+      <div class="sc-comp-mid"><span class="sc-comp-arrow">&rarr;</span></div>
+      <div class="sc-comp-cell after">
+        <div class="sc-comp-meta">
+          <span class="sc-comp-tag">After · Mapped &amp; ranked</span>
+          <span class="sc-comp-cap">Composite GTM score</span>
+        </div>
+        <div class="sc-comp-num">92</div>
+      </div>
+    </div>
+
+    <div class="sc-colhead">
+      <span>Component</span><span class="ch-b">Baseline</span><span class="ch-g">Shift</span><span class="ch-a">After</span>
+    </div>
+
+    <div class="sc-rows">
+      <div class="sc-row">
+        <div><span class="sc-name">Target market</span><span class="sc-desc">Who you go after, and whether the whole team agrees</span></div>
+        <div class="sc-cell b"><span class="sc-score">82</span></div>
+        <div class="sc-gap"><span>+9</span></div>
+        <div class="sc-cell a"><span class="sc-score">91</span></div>
+      </div>
+      <div class="sc-row">
+        <div><span class="sc-name">Lead routing &amp; speed</span><span class="sc-desc">How fast a new lead reaches the right person</span></div>
+        <div class="sc-cell b"><span class="sc-score">66</span></div>
+        <div class="sc-gap"><span>+22</span></div>
+        <div class="sc-cell a"><span class="sc-score">88</span></div>
+      </div>
+      <div class="sc-row">
+        <div><span class="sc-name">Lead source effectiveness</span><span class="sc-desc">Which sources actually produce pipeline vs. burn spend</span></div>
+        <div class="sc-cell b"><span class="sc-score">38</span></div>
+        <div class="sc-gap"><span>+48</span></div>
+        <div class="sc-cell a"><span class="sc-score">86</span></div>
+      </div>
+      <div class="sc-row">
+        <div><span class="sc-name">Visibility &amp; KPIs</span><span class="sc-desc">What leadership can see, and the targets the team runs to</span></div>
+        <div class="sc-cell b"><span class="sc-score">54</span></div>
+        <div class="sc-gap"><span>+38</span></div>
+        <div class="sc-cell a"><span class="sc-score">92</span></div>
+      </div>
+      <div class="sc-row">
+        <div><span class="sc-name">Email integrity</span><span class="sc-desc">Every mail function landing (outbound, lifecycle, transactional), not just cold</span></div>
+        <div class="sc-cell b"><span class="sc-score">52</span></div>
+        <div class="sc-gap"><span>+41</span></div>
+        <div class="sc-cell a"><span class="sc-score">93</span></div>
+      </div>
+      <div class="sc-row">
+        <div><span class="sc-name">Ownership &amp; documentation</span><span class="sc-desc">Single-person dependency risk across the motion</span></div>
+        <div class="sc-cell b"><span class="sc-score">55</span></div>
+        <div class="sc-gap"><span>+39</span></div>
+        <div class="sc-cell a"><span class="sc-score">94</span></div>
+      </div>
+    </div>
+
+    <p class="sc-foot"><strong>Baseline is the starting line, not the verdict.</strong> The audit maps and ranks. The after state is what a build moves toward. Scoring runs on a fixed rubric, so the same system can be re-scored over time.</p>
+  </div>
+</section>
+
+<hr class="section-divider">
+
 <!-- WHO IT'S FOR (tiers) -->
 <section class="tiers-section" id="who">
   <div class="container">
     <div class="label">// Who this serves</div>
-    <h2 class="section-heading">You'll recognize<br><em class="green">your team here.</em></h2>
+    <h2 class="section-heading">Does this sound like<br><em class="green">your team?</em></h2>
     <div class="tiers-grid">
       <div class="tier-item"><h5>SaaS &amp; EdTech</h5><p>RevOps and growth leaders scaling pipeline and outbound who need structure, not more tactics.</p></div>
       <div class="tier-item"><h5>Fintech &amp; lifecycle</h5><p>Consumer, fintech, and marketplace teams running high-volume lifecycle mail with real deliverability stakes.</p></div>
@@ -418,155 +553,6 @@
 </section>
 
 <hr class="section-divider">
-
-<!-- OFFERS -->
-<section class="offers-section" id="offers">
-  <div class="container">
-    <div class="offers-header">
-      <div>
-        <div class="label">// Entry points</div>
-        <h2 class="section-heading">Where to<br>start.</h2>
-      </div>
-      <p>Operator-delivered. No tool reports. No AI-generated summaries. A direct read on your system, and a plan your team can run. Start with a diagnostic, then go as deep as the operation needs.</p>
-    </div>
-
-    <div class="offer-group-label ops">// The operating-structure path</div>
-    <div class="offer-cards">
-
-      <!-- GTM Systems Audit -->
-      <div class="offer-card">
-        <div class="offer-card-inner">
-          <div>
-            <div class="offer-audience">For teams doing more and closing less, who can't see where it breaks.</div>
-            <h3>GTM Systems<br>Audit</h3>
-            <div class="offer-price">$1,450</div>
-            <div class="offer-meta">Flat fee · 5 business days · USD</div>
-            <p class="offer-desc">Activity is up. Spend is going out. Pipeline isn't responding, and nobody can say why. This is the scoped read that finds where your go-to-market motion leaks time, visibility, and money, and the three things to fix first.</p>
-            <div class="offer-actions">
-              <a href="https://calendly.com/melrevenga/30min" class="btn-primary">Book a fit call</a>
-            </div>
-          </div>
-          <div>
-            <div class="offer-deliverables-label">// Deliverables</div>
-            <ul class="offer-deliverables">
-              <li>45-min operator working session: how the business actually runs, not a template</li>
-              <li>Pipeline and visibility snapshot: what leadership can and cannot see today</li>
-              <li>Operations map: where the business depends on one person's head</li>
-              <li>Top 3 priorities ranked by what breaks first if you don't act</li>
-              <li>Quick-win actions you can start this week</li>
-              <li>Written summary and priorities list for your team</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- RevOps Build -->
-      <div class="offer-card">
-        <div class="offer-card-inner">
-          <div>
-            <div class="offer-audience">For teams who can't see their pipeline and are leaking money on tools.</div>
-            <h3>RevOps<br>Build</h3>
-            <div class="offer-price">From $4,500</div>
-            <div class="offer-meta">Scoped after a diagnostic · USD</div>
-            <p class="offer-desc">The CEO asks a question the pipeline can't answer. The operation lives in one person's head, and that person might leave. The tool stack has accumulated cost nobody has audited. This is the build that makes the pipeline visible, documents the operation, and removes the spend without losing capability.</p>
-            <div class="offer-actions">
-              <a href="https://calendly.com/melrevenga/30min" class="btn-primary">Scope a build</a>
-            </div>
-          </div>
-          <div>
-            <div class="offer-deliverables-label">// What gets built</div>
-            <ul class="offer-deliverables">
-              <li>Pipeline reporting leadership can actually run on, across every motion in one view</li>
-              <li>Documented operating model that removes single-person dependencies</li>
-              <li>CRM structure, deal stages, ownership rules, and handoff protocol</li>
-              <li>Vendor and cost rationalization: spend removed without losing capability</li>
-              <li>Enforcement and standards that survive team turnover</li>
-              <li>Opens into a fractional engagement when you want it run, not just built</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="offer-group-label specialist">// The specialist audit</div>
-    <div class="offer-cards">
-      <!-- Email Deliverability Audit (all-email) -->
-      <div class="offer-card featured amber-theme">
-        <div class="offer-card-inner">
-          <div>
-            <div class="offer-audience amber">For teams whose revenue depends on email they don't fully control.</div>
-            <h3>Email Deliverability<br>Audit</h3>
-            <div class="offer-price amber">From $950</div>
-            <div class="offer-meta">Scoped to your setup · USD</div>
-            <p class="offer-desc">Outbound, onboarding, retention, billing, transactional. The mail your revenue runs on can fail silently, and by the time you see it in the numbers, you have already lost the quarter. This is the independent read on what is stable, what is at risk, and where your single points of failure are, before a reputation event takes them down. Scope runs from a fast signal check to a full system teardown, sized to your setup.</p>
-            <div class="offer-actions">
-              <a href="https://calendly.com/melrevenga/30min" class="btn-primary" style="background:var(--amber);color:#2A1E00;">Book a qualifier</a>
-            </div>
-          </div>
-          <div>
-            <div class="offer-deliverables-label">// Deliverables</div>
-            <ul class="offer-deliverables">
-              <li>Operator review of your full sending surface, not just cold outbound</li>
-              <li>System Integrity Score (0 to 100) calibrated against real failure patterns</li>
-              <li>Authentication and reputation snapshot with meaning, not just data</li>
-              <li>Risks ranked by urgency: what breaks first if you don't act</li>
-              <li>Risk-diversification plan: removing single points of failure across domains and providers</li>
-              <li>Stabilization actions you can start this week, plus a written brief for your team</li>
-              <li>Full teardown scope adds staged 30/60/90-day remediation and enforcement rules</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <p class="offers-footnote">Every diagnostic stands alone, or opens into <strong>fractional and retainer work</strong> when you want the system built and run, not just mapped.</p>
-  </div>
-</section>
-
-<!-- RETAINER BAND -->
-<section class="retainer-band">
-  <div class="container">
-    <div class="retainer-inner">
-      <div>
-        <div class="label" style="color:var(--green);">// Beyond the diagnostic</div>
-        <h3>When you need it built, not just mapped.</h3>
-        <p>Every diagnostic can open into hands-on work: building the pipeline reporting, documenting the operation, rationalizing the tool stack, or rebuilding the email infrastructure. Fractional engagements are scoped after a diagnostic, so you're never buying a retainer blind.</p>
-      </div>
-      <a href="https://calendly.com/melrevenga/30min" class="btn-primary">Talk through a fractional engagement</a>
-    </div>
-  </div>
-</section>
-
-<hr class="section-divider">
-
-<!-- M&A CALLOUT -->
-<section class="ma-callout-section" id="ma">
-  <div class="container">
-    <div class="ma-callout">
-      <div class="ma-callout-content">
-        <div class="offer-badge offer-badge-magenta" style="margin-bottom:20px;">M&amp;A · Specialized</div>
-        <h3 class="ma-callout-heading">Evaluating an acquisition?</h3>
-        <p class="ma-callout-desc">Your deal team is the smartest in the room, and rigorous about everything except one thing: email. Most assume email infrastructure is stable. It rarely is. The target's revenue runs on email you cannot see in the deck, customer notifications, billing, onboarding, lifecycle, and almost nobody audits it pre or post-integration. That is exactly where revenue leaks after close, and it becomes your problem on day one. <strong>Email Infrastructure Due Diligence</strong> gives your deal team a priced, documented picture of what you are inheriting before the wire clears.</p>
-        <div class="ma-callout-price">$6,500 <span>· Single entity · up to 7 business days</span></div>
-        <div class="ma-callout-actions">
-          <a href="https://calendly.com/melrevenga/30min" class="btn-primary">Book a scoping call</a>
-        </div>
-      </div>
-      <div class="ma-callout-details">
-        <div class="offer-deliverables-label">// What your deal team gets</div>
-        <ul class="offer-deliverables">
-          <li>Full email surface review: transactional, lifecycle, billing, onboarding, and outbound</li>
-          <li>Domain portfolio inventory including legacy, subdomain, and parked assets</li>
-          <li>Reputation and authentication health across every sending domain</li>
-          <li>Infrastructure liability register ranked by severity and remediation effort</li>
-          <li>Migration and integration risk mapped against the transaction timeline</li>
-          <li>Pipeline and revenue leakage quantified into estimated dollar impact</li>
-          <li>Executive risk brief with red, yellow, green rating, plus a live review call for the deal team</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- RESULTS -->
 <section class="results-section" id="results">
@@ -795,25 +781,7 @@
   </div>
 </section>
 
-<!-- PRINCIPLES -->
-<section class="principles-section" id="principles">
-  <div class="container">
-    <div class="principles-layout">
-      <div class="principles-intro">
-        <div class="label">// How we operate</div>
-        <h2>Operating<br>Principles.</h2>
-        <p>These aren't values. They're how we work, and how we expect clients to work.</p>
-      </div>
-      <div class="principles-list">
-        <div class="principle"><div class="principle-name">Learn first,<br>then build</div><div class="principle-desc">We never come into a business already knowing it. We learn the operation, the numbers, and the people first, then build.</div></div>
-        <div class="principle"><div class="principle-name">System integrity<br>over hacks</div><div class="principle-desc">Sustained performance comes from coherent system design, not short-term tactics or isolated optimizations.</div></div>
-        <div class="principle"><div class="principle-name">Separation<br>before scale</div><div class="principle-desc">Domains, identities, and workflows must be isolated by purpose before volume is introduced.</div></div>
-        <div class="principle"><div class="principle-name">Prevention<br>over recovery</div><div class="principle-desc">Failures are expensive to reverse. Systems should be designed to avoid degradation in advance.</div></div>
-        <div class="principle"><div class="principle-name">Standards<br>over opinions</div><div class="principle-desc">Scalable operations require defined standards and enforcement, not individual preference or debate.</div></div>
-      </div>
-    </div>
-  </div>
-</section>
+<hr class="section-divider">
 
 <!-- FOUNDER -->
 <section class="founder-section" id="founder">
@@ -838,31 +806,93 @@
   </div>
 </section>
 
-<!-- ICP -->
-<section class="icp-section">
+<hr class="section-divider">
+
+<!-- OFFERS -->
+<section class="offers-section" id="offers">
   <div class="container">
-    <div class="label">// Fit criteria</div>
-    <h2 class="section-heading">This is for you<br><em class="green">if.</em></h2>
-    <div class="icp-layout">
-      <div class="icp-col yes">
-        <h4>// This is for you</h4>
-        <ul class="icp-list">
-          <li><span class="icon">→</span> You've grown on relationships and instinct, and the structure hasn't caught up</li>
-          <li><span class="icon">→</span> You're a CEO, COO, or founder whose business outran its documentation</li>
-          <li><span class="icon">→</span> You're a RevOps leader or operator who owns the pipeline and the sending stack</li>
-          <li><span class="icon">→</span> You're sending 10K+ emails/month across multiple domains</li>
-          <li><span class="icon">→</span> You're scaling outbound and can't afford to guess what breaks first</li>
-          <li><span class="icon">→</span> You're integrating an acquisition, or preparing for one</li>
-        </ul>
+    <div class="offers-header">
+      <div>
+        <div class="label">// Entry points</div>
+        <h2 class="section-heading">Where to<br>start.</h2>
       </div>
-      <div class="icp-col no">
-        <h4>// This is not for you</h4>
-        <ul class="icp-list">
-          <li><span class="icon">✕</span> You want copywriting, offer rewrites, or campaign creative</li>
-          <li><span class="icon">✕</span> You want day-to-day campaign management</li>
-          <li><span class="icon">✕</span> You need inbox placement guarantees</li>
-          <li><span class="icon">✕</span> You're not ready to change how the system operates</li>
-        </ul>
+      <p>Operator-delivered. No tool reports. No AI-generated summaries. A direct read on your system, and a plan your team can run. Start with a diagnostic, then go as deep as the operation needs.</p>
+    </div>
+
+    <div class="offer-group-label ops">// The operating-structure path</div>
+    <div class="offer-cards">
+
+      <!-- GTM Systems Audit -->
+      <div class="offer-card">
+        <div class="offer-card-inner">
+          <div>
+            <div class="offer-audience">The first step toward a go-to-market system that scales without you in the room.</div>
+            <h3>GTM Audit</h3>
+            <div class="offer-price">From $1,450</div>
+            <div class="offer-meta">Scoped to your setup · from 5 business days · USD</div>
+            <p class="offer-desc">Activity is up, spend is going out, and the pipeline isn't responding. This is the scoped read that scores your whole revenue engine, targeting, routing, lead effectiveness, visibility, and whether your mail even lands, then hands you a ranked baseline and the order to fix it. The map you build the system from.</p>
+            <div class="offer-actions">
+              <a href="https://calendly.com/melrevenga/30min" class="btn-primary">Book a fit call</a>
+            </div>
+          </div>
+          <div>
+            <div class="offer-deliverables-label">Deliverables</div>
+            <ul class="offer-deliverables numbered">
+              <li>Scored baseline across six components of your GTM system, email included</li>
+              <li>The gaps ranked by what's costing you most and what to fix first</li>
+              <li>Priority actions your team can start this week, in a written brief</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- RevOps Build -->
+      <div class="offer-card">
+        <div class="offer-card-inner">
+          <div>
+            <div class="offer-audience">The build that turns the audit's map into a system that runs without one person holding it together.</div>
+            <h3>RevOps Build</h3>
+            <div class="offer-price">From $4,500</div>
+            <div class="offer-meta">Scoped after the audit · USD</div>
+            <p class="offer-desc">The CEO asks a question the pipeline can't answer. The operation lives in one person's head, and that person might leave. The tool stack has accumulated cost nobody has audited. This is the build that makes the pipeline visible, documents the operation, and removes the spend without losing capability, then opens into fractional work when you want it run, not just built.</p>
+            <div class="offer-actions">
+              <a href="https://calendly.com/melrevenga/30min" class="btn-primary">Scope a build</a>
+            </div>
+          </div>
+          <div>
+            <div class="offer-deliverables-label">Deliverables</div>
+            <ul class="offer-deliverables numbered">
+              <li>Visible pipeline leadership can run on, every motion in one view</li>
+              <li>Documented operation that removes the single-person dependency</li>
+              <li>Enforced standards and a leaner tool stack that survive turnover</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="offers-footnote">Email integrity is scored inside the GTM Audit as one of the six components, not sold as a separate product. When your revenue depends on high-stakes sending and you need email assessed on its own, that scope can be <strong>run standalone</strong>, just ask on the fit call. Every diagnostic opens into <strong>fractional and retainer work</strong> when you want the system built and run, not just mapped.</p>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- PRINCIPLES -->
+<section class="principles-section" id="principles">
+  <div class="container">
+    <div class="principles-layout">
+      <div class="principles-intro">
+        <div class="label">// How we operate</div>
+        <h2>Operating<br>Principles.</h2>
+        <p>These aren't values. They're how we work, and how we expect clients to work.</p>
+      </div>
+      <div class="principles-list">
+        <div class="principle"><div class="principle-name">Learn first,<br>then build</div><div class="principle-desc">We never come into a business already knowing it. We learn the operation, the numbers, and the people first, then build.</div></div>
+        <div class="principle"><div class="principle-name">System integrity<br>over hacks</div><div class="principle-desc">Sustained performance comes from coherent system design, not short-term tactics or isolated optimizations.</div></div>
+        <div class="principle"><div class="principle-name">Separation<br>before scale</div><div class="principle-desc">Domains, identities, and workflows must be isolated by purpose before volume is introduced.</div></div>
+        <div class="principle"><div class="principle-name">Prevention<br>over recovery</div><div class="principle-desc">Failures are expensive to reverse. Systems should be designed to avoid degradation in advance.</div></div>
+        <div class="principle"><div class="principle-name">Standards<br>over opinions</div><div class="principle-desc">Scalable operations require defined standards and enforcement, not individual preference or debate.</div></div>
       </div>
     </div>
   </div>
@@ -878,22 +908,16 @@
     <p>Start with a diagnostic. Every engagement begins with a direct read on the system, then goes as deep as you need.</p>
     <div class="cta-entry-points">
       <a href="https://calendly.com/melrevenga/30min" class="cta-entry">
-        <span class="cta-entry-price">$1,450</span>
-        <span class="cta-entry-name">GTM Systems Audit · 5 days</span>
+        <span class="cta-entry-price">From $1,450</span>
+        <span class="cta-entry-name">GTM Audit · the on-ramp</span>
         <span class="cta-entry-action">Book a fit call</span>
       </a>
       <a href="https://calendly.com/melrevenga/30min" class="cta-entry">
         <span class="cta-entry-price">From $4,500</span>
-        <span class="cta-entry-name">RevOps Build · scoped</span>
+        <span class="cta-entry-name">RevOps Build · scoped after the audit</span>
         <span class="cta-entry-action">Scope a build</span>
       </a>
-      <a href="https://calendly.com/melrevenga/30min" class="cta-entry">
-        <span class="cta-entry-price amber">From $950</span>
-        <span class="cta-entry-name">Email Deliverability Audit</span>
-        <span class="cta-entry-action amber">Book a qualifier</span>
-      </a>
     </div>
-    <div class="cta-ma-link">Evaluating an acquisition? <a href="#ma">See Email Infrastructure Due Diligence, $6,500 →</a></div>
     <div class="cta-contact" style="margin-top:16px;">Not sure which one? <a href="https://calendly.com/melrevenga/30min">Book a 15-min qualifier</a>.</div>
   </div>
 </section>
@@ -914,7 +938,6 @@
     <ul class="footer-links">
       <li><a href="#offers">Services</a></li>
       <li><a href="#results">Results</a></li>
-      <li><a href="#ma">M&amp;A</a></li>
       <li><a href="#founder">About</a></li>
     </ul>
     <div class="footer-copy">© 2026 System Integrity Ops. All rights reserved.</div>
