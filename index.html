@@ -94,6 +94,10 @@
   .hero h1 em { display: block; font-style: normal; white-space: nowrap; background: linear-gradient(90deg, #22D3EE 0%, #67E8F9 50%, #A5F3FC 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; padding-bottom: 0.12em; }
   .hero-sub { font-size: 18px; font-weight: 300; color: var(--text-muted); max-width: 600px; line-height: 1.7; margin-bottom: 44px; }
   .hero-sub strong { color: var(--text); font-weight: 500; }
+  .hero-promise { font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(20px, 2.6vw, 26px); font-weight: 700; letter-spacing: -0.01em; line-height: 1.35; color: var(--text); max-width: 640px; margin-bottom: 24px; }
+  .hero-promise em { font-style: normal; color: var(--accent); }
+  .hero-promise .promise-leak { color: var(--red); }
+  .hero-promise .promise-recover { color: var(--green); }
   .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
 
   .btn-primary { font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600; color: var(--bg); background: var(--accent); padding: 14px 28px; text-decoration: none; display: inline-block; border-radius: 4px; transition: opacity 0.2s, transform 0.2s; }
@@ -403,6 +407,25 @@
     .retainer-inner { padding: 32px 28px; }
   }
 
+  /* Anchored sections clear the fixed nav when tapped from the menu */
+  section[id], [id="scorecard"], [id="who"], [id="results"], [id="offers"], [id="principles"], [id="founder"], [id="cta"] { scroll-margin-top: 76px; }
+
+  /* Mobile spacing + readability refinements */
+  @media (max-width: 600px) {
+    .container { padding-left: 22px; padding-right: 22px; }
+    .scorecard-section, .offers-section, .principles-section { padding: 64px 0; }
+    .hero-promise { font-size: 21px; line-height: 1.4; }
+    .sc-heading { font-size: clamp(24px, 7vw, 32px); }
+    .sc-comp-num { font-size: 38px; }
+    .sc-sub, .hero-sub { font-size: 16px; }
+    .offer-price { font-size: 26px; }
+    .section-heading { font-size: clamp(30px, 10vw, 46px); }
+    .founder-quote { font-size: 15px; }
+    /* keep the promise from ever crowding the CTAs */
+    .hero-ctas { gap: 12px; }
+    .btn-primary, .btn-ghost { width: 100%; text-align: center; justify-content: center; }
+  }
+
   /* logo mark helper */
   .mark { display: inline-block; }
 </style>
@@ -436,10 +459,11 @@
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <div class="hero-tag"><span class="hero-tag-dot"></span> Operator-led RevOps &amp; GTM systems <span class="hero-tag-divider">·</span> Deliverability-grade diagnostics</div>
+    <div class="hero-tag"><span class="hero-tag-dot"></span> Operator-led RevOps &amp; Go-To-Market systems</div>
     <h1><span class="l1">Built for companies that</span> <em>outgrew their structure.</em></h1>
+    <p class="hero-promise">I find where your <span class="promise-leak">revenue leaks</span>, and hand you the ranked path to <span class="promise-recover">recover it</span>.</p>
     <p class="hero-sub">
-      You grew on relationships, referrals, and people who knew what they were doing. Then the people move on, the tools multiply, and none of it is written down. System Integrity Ops builds the operating structure underneath the growth, so it keeps scaling when the original team, the founder, or the tribal knowledge is no longer in the room. <strong>Visible pipeline, documented operations, and email infrastructure your revenue can rely on.</strong>
+      You grew on relationships, referrals, and people who knew what they were doing. Then people move on, the tools pile up, and none of it is written down. I build the structure that keeps things running when they're gone: <strong>a pipeline you can see, an operation that's actually written down, and email your revenue can count on.</strong>
     </p>
     <div class="hero-ctas">
       <a href="#offers" class="btn-primary">Start with a diagnostic</a>
@@ -455,9 +479,9 @@
   <div class="container">
     <div class="label label-lg" style="color: var(--red);">// What breaks first when you scale</div>
     <div class="problem-grid">
-      <div class="problem-item" data-num="01"><p><strong>Growth outran the structure.</strong> The business grew on relationships and instinct. None of it is documented, so none of it scales, and it all depends on people who might leave.</p></div>
-      <div class="problem-item" data-num="02"><p><strong>Tools multiplied. Architecture didn't.</strong> New CRM, new sending tools, new pipeline, all inheriting the same broken patterns at higher volume. Nobody audits how they connect.</p></div>
-      <div class="problem-item" data-num="03"><p><strong>When something breaks, teams scramble.</strong> A stalled pipeline, a blocked domain, a rep who left with the whole system in their head. Recovery is expensive. Prevention isn't.</p></div>
+      <div class="problem-item" data-num="01"><p><strong>Growth outran the structure.</strong> You grew on relationships and instinct. None of it got written down, so none of it scales, and it all depends on people who might leave.</p></div>
+      <div class="problem-item" data-num="02"><p><strong>You bought more tools. Nobody connected them.</strong> New CRM, new sending tools, new pipeline, all carrying the same problems, just faster, and nobody's checked how they fit together.</p></div>
+      <div class="problem-item" data-num="03"><p><strong>When something breaks, everyone scrambles.</strong> A stalled pipeline, a blocked domain, a person who left with the whole system in their head. Fixing it after the fact is expensive. Preventing it isn't.</p></div>
     </div>
   </div>
 </section>
@@ -468,8 +492,8 @@
 <section class="scorecard-section" id="scorecard">
   <div class="container">
     <div class="label">// What experience finds that tools miss</div>
-    <h2 class="sc-heading">50+ go-to-market systems audited.<br><em>Every one leaked where the team couldn't see.</em></h2>
-    <p class="sc-sub">The audit scores six components of your revenue engine against a fixed baseline, from who you target to whether your mail even lands. Not a redesign. A read on what's actually there, and the order to fix it.</p>
+    <h2 class="sc-heading">50+ Go-To-Market systems audited.<br><em>Every one leaked where the team couldn't see.</em></h2>
+    <p class="sc-sub">I score six parts of how you sell, from who you're going after to whether your email even lands. Not a redesign, just a straight read on what's actually there and the order to fix it.</p>
 
     <div class="sc-composite">
       <div class="sc-comp-cell before">
@@ -532,7 +556,7 @@
       </div>
     </div>
 
-    <p class="sc-foot"><strong>Baseline is the starting line, not the verdict.</strong> The audit maps and ranks. The after state is what a build moves toward. Scoring runs on a fixed rubric, so the same system can be re-scored over time.</p>
+    <p class="sc-foot"><strong>The baseline is where you're starting, not a grade.</strong> I show you what's leaking and what to fix first. Same system, scored the same way, so you can measure it again down the road.</p>
   </div>
 </section>
 
@@ -545,9 +569,9 @@
     <h2 class="section-heading">Does this sound like<br><em class="green">your team?</em></h2>
     <div class="tiers-grid">
       <div class="tier-item"><h5>SaaS &amp; EdTech</h5><p>RevOps and growth leaders scaling pipeline and outbound who need structure, not more tactics.</p></div>
-      <div class="tier-item"><h5>Fintech &amp; lifecycle</h5><p>Consumer, fintech, and marketplace teams running high-volume lifecycle mail with real deliverability stakes.</p></div>
-      <div class="tier-item"><h5>Consulting &amp; services</h5><p>Founder-led firms running outbound to land clients, without deliverability or GTM systems in-house.</p></div>
-      <div class="tier-item"><h5>Industrial &amp; B2B</h5><p>Construction, industrial, and B2B-services teams building a GTM system into a market that has none.</p></div>
+      <div class="tier-item"><h5>Fintech &amp; lifecycle</h5><p>Consumer, fintech, and marketplace teams sending high volumes of lifecycle email, where landing in the inbox actually matters.</p></div>
+      <div class="tier-item"><h5>Consulting &amp; services</h5><p>Founder-led firms running outbound to win clients, without the systems for it in-house.</p></div>
+      <div class="tier-item"><h5>Industrial &amp; B2B</h5><p>Construction, industrial, and B2B-services teams building a sales system in a market that doesn't have one yet.</p></div>
     </div>
   </div>
 </section>
@@ -561,7 +585,7 @@
       <div>
         <div class="label">// Real engagements</div>
         <h2 class="section-heading">Work<br><em class="green">done.</em></h2>
-        <p class="results-intro-sub">Real systems. Real constraints. Engagements built from problems that were invisible until they weren't.</p>
+        <p class="results-intro-sub">Real companies, real constraints, real numbers. Here's the work.</p>
       </div>
       <div class="flip-hint">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" opacity=".5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
@@ -775,7 +799,7 @@
     </div>
 
     <div class="results-footer">
-      <p class="results-footer-note">All engagements are operator-delivered. <strong>No AI reports. No templated checklists.</strong> A direct read on the system, with a plan the team can execute.</p>
+      <p class="results-footer-note">Every engagement is done by me, not handed to a tool. <strong>No AI reports. No templated checklists.</strong> A straight read on your system, with a plan your team can actually run.</p>
       <a href="#offers" class="results-footer-cta">See available services →</a>
     </div>
   </div>
@@ -790,10 +814,10 @@
       <div class="founder-content">
         <div class="label">// The operator behind System Integrity Ops</div>
         <h2 class="section-heading" style="margin-bottom:32px;">Built from<br>the <em class="green">inside out.</em></h2>
-        <p class="founder-quote">I come from operations. Fifteen years building and scaling revenue infrastructure inside SaaS, EdTech, and consulting. Reporting to CEOs and Presidents, learning the operation and the numbers first, then building.</p>
+        <p class="founder-quote">I come from operations. Fifteen years building and scaling the systems revenue runs on, inside SaaS, EdTech, and consulting. Reporting to CEOs and Presidents, learning the operation and the numbers first, then building.</p>
         <p class="founder-quote"><strong>I've scaled an RFP function from $5M to $30M. I've been a key contributor to a post-merger integration that beat synergy targets by ~$60M. I've run RevOps across 6 brands doing $100M+ a year</strong>. Pipeline, reporting, cost control, and the outbound engine underneath it.</p>
-        <p class="founder-quote">Email is where I learned the discipline hardest. When email is the product, a broken sending system stops revenue, so I learned deliverability under real load, scaling outbound from 200K to 2M+ emails/month and building enforcement that survived team turnover.</p>
-        <p class="founder-quote">System Integrity Ops exists because I kept seeing the same pattern: teams hire for growth, then scramble to build structure after something breaks. <strong>Prevention is cheaper. Structure is what scales.</strong></p>
+        <p class="founder-quote">Email is where I learned the discipline hardest. When email is the product, a broken sending system stops the money, so I learned deliverability under real pressure, scaling outbound from 200K to 2M+ emails a month and building rules that held up after people left.</p>
+        <p class="founder-quote">I started System Integrity Ops because I kept seeing the same thing: teams hire for growth, then scramble to build structure after something breaks. <strong>Preventing it is cheaper. Structure is what lets you scale.</strong></p>
         <div class="founder-sig">Melissa Yilaly · Founder</div>
       </div>
       <div>
@@ -816,21 +840,20 @@
         <div class="label">// Entry points</div>
         <h2 class="section-heading">Where to<br>start.</h2>
       </div>
-      <p>Operator-delivered. No tool reports. No AI-generated summaries. A direct read on your system, and a plan your team can run. Start with a diagnostic, then go as deep as the operation needs.</p>
+      <p>Done by me, not a tool. No reports, no AI summaries. A straight read on your system, and a plan your team can run. Start with a diagnostic, then go as deep as the operation needs.</p>
     </div>
 
-    <div class="offer-group-label ops">// The operating-structure path</div>
     <div class="offer-cards">
 
       <!-- GTM Systems Audit -->
       <div class="offer-card">
         <div class="offer-card-inner">
           <div>
-            <div class="offer-audience">The first step toward a go-to-market system that scales without you in the room.</div>
+            <div class="offer-audience">The first step toward a sales system that runs without you in the room.</div>
             <h3>GTM Audit</h3>
             <div class="offer-price">From $1,450</div>
             <div class="offer-meta">Scoped to your setup · from 5 business days · USD</div>
-            <p class="offer-desc">Activity is up, spend is going out, and the pipeline isn't responding. This is the scoped read that scores your whole revenue engine, targeting, routing, lead effectiveness, visibility, and whether your mail even lands, then hands you a ranked baseline and the order to fix it. The map you build the system from.</p>
+            <p class="offer-desc">Your activity is up, the money's going out, and the pipeline isn't moving, and nobody can say why. I find where leads and revenue leak out between the first touch and the close, then hand you the three fixes that matter most, in order. The map you build the system from.</p>
             <div class="offer-actions">
               <a href="https://calendly.com/melrevenga/30min" class="btn-primary">Book a fit call</a>
             </div>
@@ -838,9 +861,9 @@
           <div>
             <div class="offer-deliverables-label">Deliverables</div>
             <ul class="offer-deliverables numbered">
-              <li>Scored baseline across six components of your GTM system, email included</li>
-              <li>The gaps ranked by what's costing you most and what to fix first</li>
-              <li>Priority actions your team can start this week, in a written brief</li>
+              <li>A scored read on six parts of how you sell, email included</li>
+              <li>The gaps ranked by what's costing you most, and what to fix first</li>
+              <li>Actions your team can start this week, in a written brief</li>
             </ul>
           </div>
         </div>
@@ -854,7 +877,7 @@
             <h3>RevOps Build</h3>
             <div class="offer-price">From $4,500</div>
             <div class="offer-meta">Scoped after the audit · USD</div>
-            <p class="offer-desc">The CEO asks a question the pipeline can't answer. The operation lives in one person's head, and that person might leave. The tool stack has accumulated cost nobody has audited. This is the build that makes the pipeline visible, documents the operation, and removes the spend without losing capability, then opens into fractional work when you want it run, not just built.</p>
+            <p class="offer-desc">The CEO asks a question the pipeline can't answer. The whole operation lives in one person's head, and they might leave. You're paying for tools nobody's checked. This is the build that makes the pipeline something you can actually see, gets the operation out of people's heads and onto paper, and cuts the wasted spend without losing anything that works. It opens into ongoing work when you want it run, not just built.</p>
             <div class="offer-actions">
               <a href="https://calendly.com/melrevenga/30min" class="btn-primary">Scope a build</a>
             </div>
@@ -862,9 +885,9 @@
           <div>
             <div class="offer-deliverables-label">Deliverables</div>
             <ul class="offer-deliverables numbered">
-              <li>Visible pipeline leadership can run on, every motion in one view</li>
-              <li>Documented operation that removes the single-person dependency</li>
-              <li>Enforced standards and a leaner tool stack that survive turnover</li>
+              <li>A pipeline leadership can actually see, every deal in one view</li>
+              <li>The operation written down, so it doesn't depend on one person</li>
+              <li>Clear standards and a leaner tool stack that hold up when people leave</li>
             </ul>
           </div>
         </div>
@@ -872,7 +895,7 @@
 
     </div>
 
-    <p class="offers-footnote">Email integrity is scored inside the GTM Audit as one of the six components, not sold as a separate product. When your revenue depends on high-stakes sending and you need email assessed on its own, that scope can be <strong>run standalone</strong>, just ask on the fit call. Every diagnostic opens into <strong>fractional and retainer work</strong> when you want the system built and run, not just mapped.</p>
+    <p class="offers-footnote">Email is scored inside the GTM Audit as one of the six parts, not sold separately. If your revenue leans hard on email and you want it looked at on its own, I can do that as a <strong>standalone</strong>, just ask on the call. Any diagnostic can turn into hands-on work when you want the system built and run, not just mapped.</p>
   </div>
 </section>
 
@@ -883,16 +906,16 @@
   <div class="container">
     <div class="principles-layout">
       <div class="principles-intro">
-        <div class="label">// How we operate</div>
+        <div class="label">// How I work</div>
         <h2>Operating<br>Principles.</h2>
-        <p>These aren't values. They're how we work, and how we expect clients to work.</p>
+        <p>These aren't values on a wall. They're how I work, and how I expect clients to work.</p>
       </div>
       <div class="principles-list">
-        <div class="principle"><div class="principle-name">Learn first,<br>then build</div><div class="principle-desc">We never come into a business already knowing it. We learn the operation, the numbers, and the people first, then build.</div></div>
-        <div class="principle"><div class="principle-name">System integrity<br>over hacks</div><div class="principle-desc">Sustained performance comes from coherent system design, not short-term tactics or isolated optimizations.</div></div>
-        <div class="principle"><div class="principle-name">Separation<br>before scale</div><div class="principle-desc">Domains, identities, and workflows must be isolated by purpose before volume is introduced.</div></div>
-        <div class="principle"><div class="principle-name">Prevention<br>over recovery</div><div class="principle-desc">Failures are expensive to reverse. Systems should be designed to avoid degradation in advance.</div></div>
-        <div class="principle"><div class="principle-name">Standards<br>over opinions</div><div class="principle-desc">Scalable operations require defined standards and enforcement, not individual preference or debate.</div></div>
+        <div class="principle"><div class="principle-name">Learn first,<br>then build</div><div class="principle-desc">I don't walk in acting like I already know your business. I learn the operation, the numbers, and the people first, then build.</div></div>
+        <div class="principle"><div class="principle-name">Systems,<br>not hacks</div><div class="principle-desc">Results that last come from how the whole thing fits together, not quick fixes or one-off tweaks.</div></div>
+        <div class="principle"><div class="principle-name">Separate before<br>you scale</div><div class="principle-desc">Keep your sending domains and identities apart by purpose before you turn up the volume.</div></div>
+        <div class="principle"><div class="principle-name">Prevent,<br>don't recover</div><div class="principle-desc">Fixing a failure after the fact is expensive. Build so it doesn't break in the first place.</div></div>
+        <div class="principle"><div class="principle-name">Standards,<br>not opinions</div><div class="principle-desc">Scaling needs rules everyone follows, not a debate every time.</div></div>
       </div>
     </div>
   </div>
@@ -905,7 +928,7 @@
   <div class="container">
     <div class="label" style="justify-content:center; display:flex; margin-bottom:32px;">// Start here</div>
     <h2>Don't guess<br>what breaks <em>first.</em></h2>
-    <p>Start with a diagnostic. Every engagement begins with a direct read on the system, then goes as deep as you need.</p>
+    <p>Start with a diagnostic. Every engagement begins with a straight read on your system, then goes as deep as you need.</p>
     <div class="cta-entry-points">
       <a href="https://calendly.com/melrevenga/30min" class="cta-entry">
         <span class="cta-entry-price">From $1,450</span>
