@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Propuesta — Perfil profesional a la medida · Carolina Magaña</title>
+<style>
+  :root{
+    --ink:#17130d;
+    --paper:#f4efe6;
+    --paper-2:#ece5d7;
+    --muted:#6b6154;
+    --line:#d8cfbe;
+    --accent:#b5442c;
+    --accent-ink:#8f3420;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Helvetica Neue",Arial,"Segoe UI",system-ui,sans-serif;
+    font-size:17px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:0 28px;}
+
+  /* Masthead */
+  header.mast{
+    border-bottom:3px solid var(--ink);
+    padding:34px 0 16px;
+    margin-top:26px;
+  }
+  .kicker{
+    display:flex;justify-content:space-between;align-items:baseline;
+    flex-wrap:wrap;gap:8px;
+    font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--muted);
+  }
+  .kicker .brand{color:var(--accent-ink);font-weight:700;}
+  h1{
+    font-size:clamp(32px,5.8vw,52px);
+    line-height:1.04;
+    letter-spacing:-.02em;
+    margin:20px 0 8px;
+    font-weight:800;
+  }
+  h1 .thin{display:block;font-weight:300;color:var(--muted);letter-spacing:-.01em;font-size:.62em;margin-top:8px;}
+  .subline{
+    font-size:14px;letter-spacing:.02em;color:var(--muted);
+    display:flex;flex-wrap:wrap;gap:6px 22px;margin:16px 0 4px;
+  }
+  .subline b{color:var(--ink);font-weight:600;}
+
+  /* Sections */
+  section{padding:30px 0;border-bottom:1px solid var(--line);}
+  .eyebrow{
+    font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--accent-ink);font-weight:700;margin:0 0 12px;
+  }
+  h2{font-size:26px;letter-spacing:-.01em;margin:0 0 12px;font-weight:800;}
+  h3{font-size:18px;margin:22px 0 4px;font-weight:700;}
+  p{margin:0 0 14px;}
+  .lead{font-size:20px;line-height:1.5;}
+  .pull{
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:23px;font-style:italic;line-height:1.4;
+    color:var(--accent-ink);
+    border-left:3px solid var(--accent);
+    padding:2px 0 2px 20px;margin:18px 0;
+  }
+  .muted{color:var(--muted);}
+
+  /* Numbered deliverable list */
+  ol.items{list-style:none;counter-reset:it;margin:8px 0 0;padding:0;}
+  ol.items li{
+    counter-increment:it;
+    position:relative;
+    padding:16px 0 16px 52px;
+    border-top:1px solid var(--line);
+  }
+  ol.items li:before{
+    content:counter(it,decimal-leading-zero);
+    position:absolute;left:0;top:16px;
+    font-size:14px;font-weight:700;color:var(--accent);
+    letter-spacing:.04em;
+    font-variant-numeric:tabular-nums;
+  }
+  ol.items li b{display:block;font-size:17px;margin-bottom:2px;}
+  ol.items li span{color:var(--muted);font-size:15.5px;}
+
+  ul.plain{margin:6px 0 14px;padding-left:20px;}
+  ul.plain li{margin:6px 0;}
+
+  /* Pricing */
+  .invest{background:var(--paper-2);border:1px solid var(--line);padding:8px 26px 22px;margin-top:6px;border-radius:2px;}
+  .prow{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);}
+  .prow .item{max-width:60%;}
+  .prow .item b{display:block;font-size:17px;}
+  .prow .item small{display:block;color:var(--muted);font-size:13.5px;margin-top:2px;}
+  .prices{text-align:right;white-space:nowrap;line-height:1.2;}
+  .was{color:var(--muted);text-decoration:line-through;font-size:14px;font-variant-numeric:tabular-nums;}
+  .now{font-weight:800;font-size:20px;color:var(--accent-ink);font-variant-numeric:tabular-nums;margin-top:2px;}
+  .prow.total{border-bottom:none;border-top:2px solid var(--ink);padding-top:18px;}
+  .prow.total .item b{font-size:19px;}
+  .prow.total .now{font-size:24px;}
+  .save-tag{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper);background:var(--accent);padding:3px 8px;border-radius:2px;font-weight:700;margin-bottom:10px;}
+  .terms{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:16px;font-size:14px;color:var(--muted);}
+  .terms b{color:var(--ink);}
+  .note{font-size:14px;color:var(--muted);margin-top:14px;}
+
+  /* Footer / signature */
+  footer.sig{padding:30px 0 60px;}
+  footer.sig .name{font-size:20px;font-weight:800;margin-bottom:2px;}
+  footer.sig .role{color:var(--muted);font-size:14px;letter-spacing:.04em;}
+  footer.sig a{color:var(--accent-ink);text-decoration:none;border-bottom:1px solid var(--line);}
+
+  .toolbar{
+    position:sticky;top:0;z-index:5;
+    background:rgba(244,239,230,.9);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    display:flex;justify-content:flex-end;padding:8px 28px;
+  }
+  .toolbar button{
+    font:inherit;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;
+    background:var(--ink);color:var(--paper);border:0;
+    padding:9px 16px;border-radius:2px;cursor:pointer;
+  }
+  .toolbar button:hover{background:var(--accent-ink);}
+
+  @media print{
+    .toolbar{display:none;}
+    body{background:#fff;font-size:12pt;}
+    .wrap{max-width:none;padding:0;}
+    section,header.mast{border-color:#999;}
+    .invest{background:#f3f3f3;}
+    .pull{color:var(--ink);}
+    a{color:inherit;}
+  }
+  @media (max-width:520px){
+    body{font-size:16px;}
+    .wrap{padding:0 18px;}
+    ol.items li{padding-left:44px;}
+    .prow .item{max-width:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar"><button onclick="window.print()">Imprimir / Guardar PDF</button></div>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="kicker">
+      <span class="brand">System Integrity Ops</span>
+      <span>Propuesta de colaboración · 20 ago 2026</span>
+    </div>
+    <h1>Perfil profesional a la medida<span class="thin">Curado, editorial y construido solo para ti.</span></h1>
+    <div class="subline">
+      <span><b>Para:</b> Carolina Magaña</span>
+      <span><b>De:</b> Melissa Yilaly</span>
+      <span><b>Vigencia:</b> 30 días</span>
+    </div>
+  </header>
+
+  <section>
+    <p class="eyebrow">La idea</p>
+    <p class="lead">Tu trayectoria y habilidades no caben en un currículum ni en una presentación de diapositivas. Tienes una amplitud y una profundidad poco comunes: maquinaria que fuiste a ver nacer en fábrica, obra desde abajo, sistemas de control y capacitación que llevaste a la práctica.</p>
+    <p>Eres operadora y ejecutora. Entiendes cómo funcionan las cosas por dentro, conectas los puntos entre áreas que nadie más está viendo, y sabes comunicarlo y llevarlo al siguiente nivel. Es un perfil y un conjunto de habilidades poco comunes, valiosos para cualquier industria, con una base especialmente sólida en construcción.</p>
+    <p class="pull">Operadora. Ejecutora. La que conecta los puntos.</p>
+    <p>Eso merece otro formato: editorial, con criterio y evidencia, en lugar de una plantilla. Te propongo un perfil profesional en línea que presente tu trabajo como una pieza curada, pensada y armada solo para ti.</p>
+    <p class="muted">Referencia estética de partida: Slanted (slanted.de) y el esquema de color de tu borrador en PDF con colores de referencia.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Entregable 1</p>
+    <h2>Perfil profesional en línea</h2>
+    <p>Un sitio web propio, editorial, hecho a tu medida. Incluye:</p>
+    <ol class="items">
+      <li><b>Redacción y edición del contenido</b><span>Tomar tu borrador y darle una voz profesional y clara. Definir qué se cuenta, con qué palabras y en qué orden.</span></li>
+      <li><b>Diseño y dirección de arte</b><span>Diseño a tu medida con tu esquema de color, inspirado en la referencia que te gusta. Se ve bien en computadora y en celular.</span></li>
+      <li><b>Construcción del sitio (HTML)</b><span>Sitio de una sola página con navegación tipo pestañas arriba (Maquinaria, Sistemas, Capacitación, Casos) que lleva a cada sección. Se siente como varias páginas, con las ventajas de una sola.</span></li>
+      <li><b>Función "Imprimir / Guardar como PDF"</b><span>Un botón para exportar el perfil completo como PDF con un clic, con formato limpio para impresión, igual que el dossier de prensa que ya viste.</span></li>
+      <li><b>Hosting (publicación en línea)</b><span>Configuración y publicación del sitio para que esté en vivo.</span></li>
+      <li><b>Documento de instrucciones</b><span>Guía en lenguaje sencillo para que tú misma hagas ediciones simples y agregues contenido más adelante, sin depender de nadie.</span></li>
+    </ol>
+    <p class="note">Incluye 2 rondas de ajustes sobre el borrador.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Entregable 2</p>
+    <h2>Actualización de LinkedIn</h2>
+    <p>Renovación de tu perfil de LinkedIn con el mismo tono:</p>
+    <ul class="plain">
+      <li>Reescritura de titular, "Acerca de" y experiencia con una voz profesional y consistente.</li>
+      <li>Selección y carga de piezas de portafolio en la sección destacada (Featured): video, casos y enlaces relevantes.</li>
+    </ul>
+    <p class="muted">Se cotiza aparte para que puedas tomar uno o los dos entregables.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Enfoque técnico</p>
+    <h2>Una sola página, no varias</h2>
+    <p>La razón principal es la función de imprimir a PDF. En un sitio de varias páginas, "guardar como PDF" solo captura la página en la que estás. En una sola página, un clic exporta el perfil completo. Como quieres esa función, esta es la mejor forma de construirlo.</p>
+    <p>También es más fácil de mantener (un solo archivo), más rápida de construir, y la sensación de "pestañas" se conserva por completo con la navegación de arriba.</p>
+    <h3>Hosting y dominio</h3>
+    <ul class="plain">
+      <li><b>Lanzamiento</b> en una dirección gratuita (<span class="muted">tunombre.netlify.app</span>) para que veas el sitio en vivo antes de gastar en un dominio.</li>
+      <li><b>Recomendado:</b> comprar un dominio propio (por ejemplo <span class="muted">carolinamagana.com</span> o <span class="muted">.mx</span>) a tu nombre, para que el sitio sea tuyo y no dependa de nadie. Costo aprox. $150 a $400 MXN al año, que pagas tú directamente. Yo lo conecto sin costo adicional.</li>
+      <li>El <b>hosting</b> queda sin costo mensual en el plan gratuito, más que suficiente para este perfil.</li>
+    </ul>
+  </section>
+
+  <section>
+    <p class="eyebrow">Alcance</p>
+    <h2>Qué no incluye</h2>
+    <ul class="plain">
+      <li>Fotografía o video profesional (se usa el material que ya tienes).</li>
+      <li>Creación de contenido nuevo más allá de editar y organizar el material que me proporciones.</li>
+      <li>Sistema de administración de contenido (CMS). Las ediciones se hacen sobre el archivo con la guía incluida.</li>
+      <li>Mantenimiento continuo o nuevas secciones después de la entrega (disponibles como trabajo adicional).</li>
+      <li>Costo del dominio, que pagas tú directamente y queda a tu nombre.</li>
+    </ul>
+  </section>
+
+  <section>
+    <p class="eyebrow">Inversión</p>
+    <div class="invest">
+      <div class="prow">
+        <div class="item"><b>Entregable 1 — Perfil profesional en línea</b><small>Redacción, diseño, build, PDF, hosting y guía de edición</small></div>
+        <div class="prices"><div class="was">$6,500+ MXN</div><div class="now">$4,500 MXN</div></div>
+      </div>
+      <div class="prow">
+        <div class="item"><b>Entregable 2 — Actualización de LinkedIn</b><small>Titular, "Acerca de", experiencia y sección destacada</small></div>
+        <div class="prices"><div class="was">$2,500+ MXN</div><div class="now">$1,940 MXN</div></div>
+      </div>
+      <div class="prow total">
+        <div class="item"><b>Total — ambos entregables</b><small>Precio de lista $9,000+ MXN</small></div>
+        <div class="prices"><div class="now">$6,440 MXN</div></div>
+      </div>
+      <div style="margin-top:16px"><span class="save-tag">Precio de lanzamiento</span></div>
+      <div class="terms">
+        <span><b>Pago:</b> 50% para iniciar · 50% contra entrega</span>
+        <span><b>Dominio (opcional):</b> ~$150 a $400 MXN / año, a tu nombre</span>
+      </div>
+    </div>
+    <p class="note">Tarifa de lanzamiento para esta primera colaboración.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Tiempos estimados</p>
+    <ul class="plain">
+      <li><b>Primer borrador del perfil:</b> 5 a 7 días hábiles desde el anticipo y la recepción de tu material.</li>
+      <li><b>Ajustes (2 rondas) y publicación:</b> 3 a 5 días hábiles adicionales.</li>
+      <li><b>LinkedIn:</b> en paralelo, 2 a 3 días hábiles.</li>
+    </ul>
+    <p class="muted">Los tiempos corren a partir de recibir tu material (textos, fotos, enlaces, video) y el anticipo.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Siguiente paso</p>
+    <p>Si estás lista para avanzar, me confirmas el o los entregables que quieres y enviamos el anticipo para arrancar. Cualquier ajuste al alcance lo vemos antes de empezar.</p>
+  </section>
+
+  <footer class="sig">
+    <p class="name">Melissa Yilaly</p>
+    <p class="role">System Integrity Ops · <a href="http://systemintegrityops.com/">systemintegrityops.com</a></p>
+  </footer>
+
+</div>
+</body>
+</html>
