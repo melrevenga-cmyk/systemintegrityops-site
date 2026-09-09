@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>US Growth Pilot for AST &amp; Partners — System Integrity Ops</title>
+<style>
+  :root{
+    --navy:#0b0f2b;
+    --navy-2:#121839;
+    --cyan:#22d3ee;
+    --violet:#a78bfa;
+    --green:#00e676;
+
+    --ink:#141a2e;
+    --ink-2:#454d63;
+    --ink-3:#78809a;
+    --line:#e4e6ea;
+    --line-2:#eef0f3;
+    --paper:#ffffff;
+    --wash:#f6f7f9;
+
+    --accent:#0e7c8e;
+    --accent-wash:#e9f7fa;
+    --accent-line:#bfe6ee;
+    --maxw:760px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;background:var(--wash);color:var(--ink);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;
+  }
+  .sheet{
+    max-width:var(--maxw);margin:0 auto;background:var(--paper);min-height:100vh;
+    border-left:1px solid var(--line);border-right:1px solid var(--line);
+  }
+  .content{padding:44px 56px 24px;}
+
+  .mast{
+    background:var(--navy);color:#fff;padding:26px 56px 24px;
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+    border-bottom:3px solid transparent;
+    border-image:linear-gradient(90deg,var(--cyan) 0%,var(--violet) 55%,var(--green) 100%) 1;
+  }
+  .brand{font-weight:600;letter-spacing:-0.01em;font-size:17px;color:#fff;}
+  .brand .dot{color:var(--cyan);}
+  .mast .meta{font-size:13px;color:#aeb6d4;text-align:right;line-height:1.55;}
+  .mast .meta strong{color:#fff;font-weight:600;}
+
+  h1{font-size:32px;line-height:1.15;letter-spacing:-0.02em;font-weight:650;margin:0 0 10px;}
+  .lede{font-size:17px;color:var(--ink-2);margin:0 0 8px;max-width:60ch;}
+  .lede-2{font-size:15px;color:var(--ink-3);margin:0 0 40px;max-width:62ch;}
+
+  h2{font-size:14px;font-weight:600;letter-spacing:0.01em;color:var(--accent);margin:40px 0 6px;}
+  h2 .num{color:var(--ink-3);font-weight:600;margin-right:8px;}
+  section:first-of-type h2{margin-top:0;}
+  p{margin:0 0 14px;}
+  .body p{color:var(--ink-2);}
+  .body strong{color:var(--ink);font-weight:600;}
+
+  h3{font-size:15px;font-weight:600;color:var(--ink);margin:22px 0 4px;}
+  h3 .tag{color:var(--accent);font-weight:600;}
+
+  ul.checks{list-style:none;margin:6px 0 0;padding:0;}
+  ul.checks li{position:relative;padding-left:22px;margin-bottom:9px;color:var(--ink-2);font-size:15px;}
+  ul.checks li::before{
+    content:"";position:absolute;left:2px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--accent);
+  }
+
+  /* Timeline */
+  .phase{
+    display:grid;grid-template-columns:120px 1fr;gap:22px;
+    padding:16px 0;border-bottom:1px solid var(--line-2);
+  }
+  .phase:first-of-type{border-top:1px solid var(--line-2);}
+  .phase .when{font-weight:600;color:var(--accent);font-size:14px;}
+  .phase .what{margin:0;color:var(--ink-2);font-size:15px;}
+  .phase .what strong{color:var(--ink);font-weight:600;}
+
+  /* Success metric */
+  .metric{
+    margin:18px 0;padding:22px 24px;background:var(--accent-wash);
+    border:1px solid var(--accent-line);border-radius:12px;
+    display:flex;align-items:center;gap:22px;flex-wrap:wrap;
+  }
+  .metric .big{font-size:40px;font-weight:700;color:var(--accent);letter-spacing:-0.02em;line-height:1;}
+  .metric .mlabel{font-size:15px;color:var(--ink-2);max-width:44ch;}
+  .metric .mlabel strong{color:var(--ink);font-weight:600;}
+
+  .tracked{font-size:14px;color:var(--ink-3);margin:6px 0 0;}
+
+  /* Investment */
+  .invest-grid{
+    margin:16px 0 10px;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  }
+  .invest-row{
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+    padding:16px 22px;border-bottom:1px solid var(--line-2);
+  }
+  .invest-row:last-child{border-bottom:none;}
+  .invest-row.head{background:var(--navy);}
+  .invest-row.head .k,.invest-row.head .v{color:#fff;}
+  .invest-row .k{color:var(--ink-2);font-size:15px;}
+  .invest-row .k strong{color:var(--ink);font-weight:600;}
+  .invest-row .v{font-weight:700;color:var(--accent);font-size:20px;white-space:nowrap;letter-spacing:-0.01em;}
+  .invest-row.head .v{color:var(--cyan);font-size:16px;}
+  .invest-row .sub{display:block;font-size:12px;color:var(--ink-3);font-weight:500;margin-top:2px;}
+
+  .terms{margin-top:14px;}
+  .terms .trow{display:grid;grid-template-columns:130px 1fr;gap:16px;padding:7px 0;font-size:14px;}
+  .terms .tk{color:var(--ink);font-weight:600;}
+  .terms .tv{color:var(--ink-2);}
+
+  .excl{margin-top:16px;font-size:14px;color:var(--ink-3);}
+  .excl strong{color:var(--ink-2);font-weight:600;}
+
+  /* Next steps */
+  ol.steps{margin:8px 0 0;padding-left:20px;}
+  ol.steps li{color:var(--ink-2);font-size:15px;margin-bottom:8px;}
+  ol.steps li strong{color:var(--ink);font-weight:600;}
+  a.cta{
+    display:inline-block;text-decoration:none;
+    background:linear-gradient(90deg,var(--cyan),var(--violet));
+    color:var(--navy);font-weight:600;font-size:15px;
+    padding:12px 22px;border-radius:8px;
+  }
+  a.cta:hover{filter:brightness(1.04);}
+
+  .footer{
+    background:var(--navy);color:#aeb6d4;padding:22px 56px 26px;font-size:14px;
+    border-top:3px solid transparent;
+    border-image:linear-gradient(90deg,var(--green) 0%,var(--violet) 45%,var(--cyan) 100%) 1;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+  }
+  .footer .who{color:#fff;font-weight:600;}
+  .footer a.site{color:var(--cyan);font-size:13px;text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s;}
+  .footer a.site:hover{border-bottom-color:var(--cyan);}
+
+  #gate{position:fixed;inset:0;z-index:9999;background:var(--navy);display:flex;align-items:center;justify-content:center;padding:24px;}
+  #gate .card{width:100%;max-width:360px;text-align:center;}
+  #gate .g-brand{color:#fff;font-weight:600;font-size:18px;margin-bottom:6px;}
+  #gate .g-brand .dot{color:var(--cyan);}
+  #gate .g-sub{color:#aeb6d4;font-size:14px;margin-bottom:22px;}
+  #gate input{width:100%;padding:12px 14px;font-size:15px;border:1px solid #2a3358;border-radius:8px;background:#121839;color:#fff;outline:none;}
+  #gate input:focus{border-color:var(--cyan);}
+  #gate button{width:100%;margin-top:12px;padding:12px 14px;font-size:15px;font-weight:600;border:none;border-radius:8px;cursor:pointer;background:linear-gradient(90deg,var(--cyan),var(--violet));color:var(--navy);}
+  #gate .g-err{color:#f87171;font-size:13px;margin-top:12px;min-height:18px;}
+  body.locked{overflow:hidden;}
+
+  @media (max-width:640px){
+    .sheet{border-left:none;border-right:none;}
+    .content{padding:28px 22px 16px;}
+    .mast{padding:22px 22px 18px;flex-direction:column;gap:8px;}
+    .mast .meta{text-align:left;}
+    .footer{padding:20px 22px;flex-direction:column;align-items:flex-start;gap:6px;}
+    h1{font-size:26px;}
+    .phase{grid-template-columns:1fr;gap:4px;}
+    .metric{flex-direction:column;align-items:flex-start;gap:10px;}
+    .terms .trow{grid-template-columns:1fr;gap:2px;}
+    .invest-row{flex-direction:column;align-items:flex-start;gap:4px;}
+  }
+</style>
+</head>
+<body>
+<main class="sheet">
+
+  <div class="mast">
+    <div class="brand">System Integrity <span class="dot">Ops</span></div>
+    <div class="meta">
+      US Growth Pilot for <strong>AST &amp; Partners</strong><br>
+      Prepared for <strong>Andrei Stoica</strong> · by <strong>Melissa Yilaly</strong><br>
+      September 9, 2026 · Confidential
+    </div>
+  </div>
+
+  <div class="content">
+
+  <h1>A 90-day outbound pilot to open US pipeline for AST</h1>
+  <p class="lede">Precision outreach and warm introductions — built to land qualified conversations with US luxury and design-led brands that fit AST's bespoke digital work.</p>
+  <p class="lede-2">This is quality over volume. AST sells discretion, judgement, and craft to high-expectation brands, so the outreach is written and paced to match — small, hand-picked target lists and personalized contact, never mass cold spam that would sit at odds with the brand. You keep the client relationship and the delivery; I build and run the engine that fills the top of your funnel.</p>
+
+  <section class="body">
+    <h2><span class="num">01</span>Scope of work</h2>
+
+    <h3><span class="tag">A ·</span> LinkedIn — presence and outreach</h3>
+    <ul class="checks">
+      <li>Position AST for a US luxury audience — company page language and framing that reflects the studio's calm, considered brand voice.</li>
+      <li>Targeted connection requests and personalized outreach to decision-makers at US luxury and design-led brands.</li>
+      <li>Warm engagement — connect, follow, thoughtfully comment on prospect activity before any direct outreach — so the AST name is familiar and credible when contact arrives.</li>
+      <li>A light, considered content cadence anchored on AST's strengths — bespoke digital experiences, creative design, and AI visibility — to build authority with a discerning audience.</li>
+    </ul>
+
+    <h3><span class="tag">B ·</span> Email outbound — precision, not volume</h3>
+    <ul class="checks">
+      <li>Define the US target profile with you across AST's verticals — luxury fashion &amp; lifestyle, hospitality &amp; travel, health &amp; wellness, professional &amp; advisory, creative &amp; entertainment — and build a hand-researched shortlist of brands that genuinely fit AST's best work.</li>
+      <li>Deep research and verified contact data for each target — personalization per brand, not a templated blast.</li>
+      <li>Outbound sent from properly configured, warmed sending infrastructure — deliverability handled so emails reach the inbox. This is the part I do every day.</li>
+      <li>Messaging built on AST's real differentiators: bespoke digital craft and AI visibility (being found when buyers ask AI assistants for recommendations in their category) — a current, relevant hook few competitors are using.</li>
+      <li>Reply triage, meeting booking, and follow-up throughout — qualified conversations handed to you to close.</li>
+    </ul>
+
+    <h3><span class="tag">C ·</span> Partner &amp; referral outreach</h3>
+    <ul class="checks">
+      <li>Luxury moves on trust and introductions — so alongside direct outreach, I'll build relationships with firms adjacent to AST's world: luxury PR agencies, brand and identity studios, high-end architects and interior designers, and luxury marketing consultants.</li>
+      <li>These partners serve the same brands but don't build bespoke digital experiences — making AST a natural referral for work they can't deliver themselves.</li>
+      <li>Warm partner outreach run on the same infrastructure — one good introduction into a luxury network can outperform months of cold contact.</li>
+    </ul>
+  </section>
+
+  <section class="body">
+    <h2><span class="num">02</span>Timeline — 90-day pilot</h2>
+    <div class="phase">
+      <div class="when">Days 1–14</div>
+      <p class="what"><strong>Setup &amp; research.</strong> Target profile and hand-researched shortlist defined with you across AST's verticals. Sending infrastructure configured and warmed. Personalized sequences drafted and tested. LinkedIn positioning updated; warming and partner mapping begin.</p>
+    </div>
+    <div class="phase">
+      <div class="when">Days 15–60</div>
+      <p class="what"><strong>Outreach.</strong> Direct and partner outreach launch to the shortlist. LinkedIn engagement and content active throughout. Replies triaged, meetings booked and confirmed in real time. Early learnings sharpen the messaging and targeting.</p>
+    </div>
+    <div class="phase">
+      <div class="when">Days 61–90</div>
+      <p class="what"><strong>Iterate &amp; document.</strong> Strong-signal segments and partner relationships get a second push. The full system — target research, sequences, infrastructure, partner list, and playbook — is documented for AST to keep running. Day 90 review on whether the pilot continues.</p>
+    </div>
+  </section>
+
+  <section class="body">
+    <h2><span class="num">03</span>What success looks like</h2>
+    <div class="metric">
+      <div class="big" style="font-size:26px;">Defined together</div>
+      <div class="mlabel">For luxury work, a handful of genuinely well-matched conversations matters far more than a high count — each closed engagement is significant. Rather than fix a number here, we'll set the right targets and the metrics that matter to AST together on our first call, so they fit your goals, capacity, and how you define a good outcome.</div>
+    </div>
+    <p class="tracked">Likely worth tracking: reply quality · connection accept rate · meetings booked · partner relationships opened · pipeline value created — we'll agree the shortlist that matters to you.</p>
+    <p style="margin-top:14px;">One closed US engagement at AST's typical value pays back the pilot many times over. We'll hold short reviews at <strong>Day 30, Day 60, and Day 90</strong>: Day 30 is the first read on outreach performance, Day 60 is the decision point on where to double down, and Day 90 is where we decide whether the engagement continues.</p>
+  </section>
+
+  <section class="body">
+    <h2><span class="num">04</span>Investment</h2>
+
+    <div class="invest-grid">
+      <div class="invest-row head">
+        <div class="k">Monthly retainer — all scope above included</div>
+        <div class="v">Front-loaded build</div>
+      </div>
+      <div class="invest-row">
+        <div class="k"><strong>Month 1</strong><span class="sub">heavier build month — infrastructure, list, sequences, warming</span></div>
+        <div class="v">$1,000</div>
+      </div>
+      <div class="invest-row">
+        <div class="k"><strong>Months 2 &amp; 3</strong><span class="sub">$750 / month — run and optimize</span></div>
+        <div class="v">$1,500</div>
+      </div>
+      <div class="invest-row">
+        <div class="k"><strong>Pilot total · 90 days</strong></div>
+        <div class="v">$2,500</div>
+      </div>
+      <div class="invest-row">
+        <div class="k"><strong>Finder's fee</strong><span class="sub">on new US business AST closes from pilot-sourced leads</span></div>
+        <div class="v">15%</div>
+      </div>
+    </div>
+
+    <div class="terms">
+      <div class="trow"><div class="tk">Finder's fee</div><div class="tv">15% of first project value, on any US client I source and hand over. Payable when AST collects payment from the client. Applies to deals closed within 6 months of the introduction.</div></div>
+      <div class="trow"><div class="tk">Billing</div><div class="tv">Monthly, due on the 1st. First invoice on kickoff.</div></div>
+      <div class="trow"><div class="tk">Term</div><div class="tv">90 days, with a mutual decision at Day 90 on continuing.</div></div>
+      <div class="trow"><div class="tk">Early exit</div><div class="tv">Either party may end at the Day 30 or Day 60 checkpoint with 14 days' written notice.</div></div>
+    </div>
+
+    <p class="excl"><strong>Not included:</strong> paid ad spend · website production or build work (that's AST's delivery) · tool subscriptions (LinkedIn Sales Navigator, Apollo, and similar).</p>
+  </section>
+
+  <section class="body">
+    <h2><span class="num">05</span>Next step</h2>
+    <ol class="steps">
+      <li><strong>Book a short call</strong> to talk it through — we'll define what success looks like for AST, the US target profile, and the shortlist together.</li>
+      <li><strong>Align and confirm</strong> scope and timing, adjusting anything that needs it before we start.</li>
+      <li><strong>Build begins</strong> after kickoff; outreach launches within about two weeks.</li>
+    </ol>
+    <p style="margin-top:16px;">
+      <a class="cta" href="https://calendly.com/hello-inboxglobal/30min" target="_blank" rel="noopener">Book a call to discuss</a>
+    </p>
+    <p style="margin-top:12px;color:var(--ink-3);font-size:14px;">No pressure to commit — the call is just to see if it's a fit. Questions or edits are welcome any time.</p>
+  </section>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div>Submitted by <span class="who">Melissa Yilaly</span> — System Integrity Ops</div>
+    <div><a class="site" href="https://systemintegrityops.com" target="_blank" rel="noopener">systemintegrityops.com</a></div>
+  </div>
+
+</main>
+
+<div id="gate">
+  <div class="card">
+    <div class="g-brand">System Integrity <span class="dot">Ops</span></div>
+    <div class="g-sub">Enter the access code to view this proposal.</div>
+    <input id="g-input" type="password" placeholder="Access code" autocomplete="off" aria-label="Access code">
+    <button id="g-btn" type="button">View proposal</button>
+    <div class="g-err" id="g-err"></div>
+  </div>
+</div>
+
+<script>
+/*
+  NOTE: This access gate is COSMETIC ONLY. The code below runs in the
+  visitor's browser, so the access code is readable by anyone who opens
+  View Source or dev tools. It deters casual viewing but is NOT real
+  security. For genuine protection, host with server-side password
+  protection (e.g. Netlify or Cloudflare Access).
+*/
+(function(){
+  var CODE = "AST2026";
+  var gate = document.getElementById("gate");
+  var input = document.getElementById("g-input");
+  var btn = document.getElementById("g-btn");
+  var err = document.getElementById("g-err");
+  document.body.classList.add("locked");
+  function tryUnlock(){
+    if(input.value.trim() === CODE){
+      gate.style.display = "none";
+      document.body.classList.remove("locked");
+    } else {
+      err.textContent = "Incorrect code. Try again.";
+      input.select();
+    }
+  }
+  btn.addEventListener("click", tryUnlock);
+  input.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){ tryUnlock(); } else { err.textContent = ""; }
+  });
+  input.focus();
+})();
+</script>
+
+</body>
+</html>
