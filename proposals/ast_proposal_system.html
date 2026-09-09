@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
 <title>Proposal System for AST &amp; Partners — System Integrity Ops</title>
 <style>
   :root{
@@ -238,6 +239,33 @@
     .invest{flex-direction:column;align-items:flex-start;}
     .invest .figures{text-align:left;}
   }
+
+  /* --- Access gate (cosmetic only; see note in the script below) --- */
+  #gate{
+    position:fixed;inset:0;z-index:9999;
+    background:var(--navy);
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  #gate .card{
+    width:100%;max-width:360px;text-align:center;
+  }
+  #gate .g-brand{color:#fff;font-weight:600;font-size:18px;margin-bottom:6px;}
+  #gate .g-brand .dot{color:var(--cyan);}
+  #gate .g-sub{color:#aeb6d4;font-size:14px;margin-bottom:22px;}
+  #gate input{
+    width:100%;padding:12px 14px;font-size:15px;
+    border:1px solid #2a3358;border-radius:8px;
+    background:#121839;color:#fff;outline:none;
+  }
+  #gate input:focus{border-color:var(--cyan);}
+  #gate button{
+    width:100%;margin-top:12px;padding:12px 14px;font-size:15px;font-weight:600;
+    border:none;border-radius:8px;cursor:pointer;
+    background:linear-gradient(90deg,var(--cyan),var(--violet));color:var(--navy);
+  }
+  #gate .g-err{color:#f87171;font-size:13px;margin-top:12px;min-height:18px;}
+  body.locked{overflow:hidden;}
 </style>
 </head>
 <body>
@@ -381,5 +409,50 @@
   </div>
 
 </main>
+
+<div id="gate">
+  <div class="card">
+    <div class="g-brand">System Integrity <span class="dot">Ops</span></div>
+    <div class="g-sub">Enter the access code to view this proposal.</div>
+    <input id="g-input" type="password" placeholder="Access code" autocomplete="off" aria-label="Access code">
+    <button id="g-btn" type="button">View proposal</button>
+    <div class="g-err" id="g-err"></div>
+  </div>
+</div>
+
+<script>
+/*
+  NOTE: This access gate is COSMETIC ONLY. The code below runs in the
+  visitor's browser, so the access code is readable by anyone who opens
+  View Source or dev tools. It deters casual viewing but is NOT real
+  security. For genuine protection, host this file with server-side
+  password protection (e.g. Netlify or Cloudflare Access).
+*/
+(function(){
+  var CODE = "AST2026";
+  var gate = document.getElementById("gate");
+  var input = document.getElementById("g-input");
+  var btn = document.getElementById("g-btn");
+  var err = document.getElementById("g-err");
+  document.body.classList.add("locked");
+
+  function tryUnlock(){
+    if(input.value.trim() === CODE){
+      gate.style.display = "none";
+      document.body.classList.remove("locked");
+    } else {
+      err.textContent = "Incorrect code. Try again.";
+      input.select();
+    }
+  }
+  btn.addEventListener("click", tryUnlock);
+  input.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){ tryUnlock(); }
+    else { err.textContent = ""; }
+  });
+  input.focus();
+})();
+</script>
+
 </body>
 </html>
