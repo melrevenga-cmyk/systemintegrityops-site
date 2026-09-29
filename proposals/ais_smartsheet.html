@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIS Welcome Mat</title>
+<meta name="description" content="Concept preview of the AIS client onboarding dashboard in Smartsheet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#E9EEF3;--card:#fff;--ink:#10243A;--soft:#43566A;--rule:#D9E0E8;--rule2:#EAEFF4;--blue:#1B6FC4;--navy:#124B87;--green:#1C9A55;--paper:#F6F8FA}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--blue)}a:hover{color:var(--navy)}
+.bar{height:56px;padding:0 28px;display:flex;align-items:center;gap:24px;background:#fff;border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:5}
+.bar button{height:36px;padding:0 14px;border:0;border-radius:6px;background:transparent;font:inherit;font-size:14px;color:var(--soft);cursor:pointer}
+.bar button:hover{background:var(--paper)}
+.bar .title{flex:1;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:600}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--green)}
+.bar .right{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--soft)}
+.bar .share{border:1px solid var(--rule);background:#fff;color:var(--ink);padding:0 16px}
+main{max-width:1440px;margin:0 auto;padding:28px;display:flex;flex-direction:column;gap:24px}
+.hero{padding:36px 44px;border-radius:12px;background:var(--navy);color:#fff;display:flex;align-items:center;gap:40px}
+.hero .kick{font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#9CCBF7}
+.hero h1{margin:12px 0;font-family:'IBM Plex Serif',Georgia,serif;font-weight:600;font-size:40px;line-height:1.15}
+.hero p{margin:0;max-width:780px;font-size:17px;line-height:1.55;color:#DCE9F7}
+.prog{width:260px;flex-shrink:0;padding:20px 22px;border-radius:10px;background:#1B5FA6;display:flex;flex-direction:column;gap:10px;font-size:13px;color:#DCE9F7}
+.prog .n{font-size:40px;font-weight:700;line-height:1;color:#fff}
+.track{height:8px;border-radius:4px;background:var(--navy);overflow:hidden}
+.fill{height:100%;width:0;background:#4FC584;transition:width .3s}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.col{display:flex;flex-direction:column;gap:24px;min-width:0}
+.card{padding:24px;border-radius:12px;background:var(--card);border:1px solid var(--rule);display:flex;flex-direction:column;gap:16px}
+.head{display:flex;align-items:center;gap:10px;color:var(--blue)}
+.head h2{margin:0;font-size:18px;font-weight:600;color:var(--ink)}
+.head .meta{margin-left:auto;font-size:12px;color:var(--soft)}
+.pill{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:#E8F1FB;color:var(--navy);white-space:nowrap}
+.video{display:block;aspect-ratio:640/300;border-radius:8px;overflow:hidden;background:#10243A;outline-offset:3px}
+.video svg{display:block;transition:transform .25s}
+.video:hover svg{transform:scale(1.02)}
+.muted{font-size:14px;color:var(--soft);line-height:1.5;margin:0}
+.cta{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;border-radius:8px;background:var(--blue);color:#fff;text-decoration:none}
+.cta:hover{background:var(--navy);color:#fff}
+.cta b{display:block;font-size:17px;font-weight:600} .cta small{font-size:13px;color:#DCE9F7}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{font-size:13px;padding:6px 10px;border-radius:6px;background:var(--paper);border:1px solid var(--rule2);color:var(--soft)}
+.sheet{border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.row{display:grid;grid-template-columns:48px 1fr 140px 124px;align-items:center;border-bottom:1px solid var(--rule2);min-height:60px;font-size:15px}
+.row:last-child{border-bottom:0}
+.row.th{min-height:0;background:var(--paper);border-bottom:1px solid var(--rule);font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--soft)}
+.row.th>div{padding:12px} .row.th>div:first-child{text-align:center;padding:12px 0}
+.row .c{display:flex;justify-content:center}
+.row input{width:20px;height:20px;accent-color:var(--green);cursor:pointer}
+.row label{padding:10px 12px;display:flex;flex-direction:column;gap:2px;cursor:pointer}
+.row label span{font-weight:500} .row label small{font-size:13px;color:var(--soft)}
+.row .w{padding:10px 12px;font-size:13px;color:var(--soft)}
+.row .s{padding:10px 12px}
+.st{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:#FCF2DF;color:#7A4F07;white-space:nowrap}
+.st.ok{background:#E4F4EB;color:#146E3D}
+.row.done label span{text-decoration:line-through;color:var(--soft)}
+.gate{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:24px 28px;border-radius:10px;background:var(--blue);color:#fff;text-decoration:none;transition:background .3s}
+.gate:hover{color:#fff;filter:brightness(1.06)}
+.gate.ready{background:var(--green)}
+.gate b{display:block;font-size:20px;font-weight:600} .gate small{font-size:14px;opacity:.88}
+.help{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--soft);flex-wrap:wrap}
+.note{text-align:center;font-size:12px;color:var(--soft);padding:0 16px 28px}
+.gate-wrap{position:fixed;inset:0;z-index:50;background:var(--navy);display:flex;align-items:center;justify-content:center;padding:16px}
+.lock{width:100%;max-width:400px;background:#fff;border-radius:14px;padding:36px 32px;display:flex;flex-direction:column;gap:16px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.lock .ico{width:48px;height:48px;border-radius:12px;background:#E8F1FB;color:var(--blue);display:flex;align-items:center;justify-content:center}
+.lock h1{margin:0;font-family:'IBM Plex Serif',Georgia,serif;font-size:26px;line-height:1.2}
+.lock p{margin:0;font-size:14px;color:var(--soft);line-height:1.5}
+.lock label{font-size:13px;font-weight:600}
+.lock input{height:46px;padding:0 14px;border:1px solid var(--rule);border-radius:8px;font:inherit;font-size:16px;width:100%}
+.lock input:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:var(--blue)}
+.lock button{height:46px;border:0;border-radius:8px;background:var(--blue);color:#fff;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.lock button:hover{background:var(--navy)}
+.lock .err{color:#B42318;font-size:13px;min-height:18px}
+.lock .kick{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+body.locked #app{display:none}
+body:not(.locked) .gate-wrap{display:none}
+@media (max-width:1000px){.cols{grid-template-columns:1fr}.hero{flex-direction:column;align-items:stretch}.prog{width:auto}}
+@media (max-width:640px){main{padding:16px}.bar{padding:0 12px;gap:8px}.bar .right span,.bar .edit{display:none}.hero{padding:24px}.hero h1{font-size:28px}
+.row{grid-template-columns:40px 1fr 108px}.st{font-size:11px;padding:4px 8px}.row .s{padding:10px 8px 10px 0}.row .w{display:none}.head .meta{display:none}}
+</style>
+</head>
+<body class="locked">
+<div class="gate-wrap">
+  <form class="lock" id="lockForm" autocomplete="off">
+    <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+    <div class="kick">Acquisition Integration Specialists</div>
+    <h1>AIS Welcome Mat preview</h1>
+    <p>This preview is private. Enter the password you were given to continue.</p>
+    <label for="pw">Password</label>
+    <input type="password" id="pw" required autofocus>
+    <div class="err" id="err" role="alert"></div>
+    <button type="submit">Unlock preview</button>
+  </form>
+</div>
+<div id="app">
+<header class="bar">
+  <div class="edit"><button type="button">Edit</button><button type="button">View</button></div>
+  <div class="title"><span class="dot"></span>AIS Welcome Mat
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="#B4740B" aria-hidden="true"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></div>
+  <div class="right"><span>Dashboard · View only</span><button type="button" class="share">Share</button></div>
+</header>
+<main>
+  <section class="hero">
+    <div style="flex:1">
+      <div class="kick">Acquisition Integration Specialists · Client Onboarding</div>
+      <h1>Welcome to your Post-Merger Integration Workspace</h1>
+      <p>AIS has pre-configured this workspace to help you map out your pipeline dependencies safely. Work through the five steps below — most people finish in under an hour.</p>
+    </div>
+    <div class="prog" aria-live="polite">
+      <div>Your onboarding progress</div>
+      <div><span class="n" id="n">0</span> <span style="font-size:16px">of 5 steps</span></div>
+      <div class="track"><div class="fill" id="fill"></div></div>
+      <div id="status">5 steps left before your workspace opens</div>
+    </div>
+  </section>
+
+  <div class="cols">
+    <div class="col">
+      <section class="card">
+        <div class="head"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="15" height="14" rx="2"/><path d="M17 10l5-3v10l-5-3z"/></svg><h2>Training video</h2><span class="pill" style="margin-left:auto">Step 2</span></div>
+        <a class="video" href="https://drive.google.com/file/d/1RbLGqOBeGxdJJ6lnNQRmH5XTNxZLP15q/view?usp=sharing" target="_blank" rel="noopener" data-task="t2" aria-label="Play Smartsheet End-User Training video (opens in a new tab)"><svg width="100%" height="100%" viewBox="0 0 640 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="640" height="300" fill="#10243A"></rect>
+              <g stroke="#1C3550" stroke-width="1"><path d="M0 40H640M0 80H640M0 120H640M0 160H640M0 200H640M0 240H640"></path><path d="M80 0V300M160 0V300M240 0V300M320 0V300M400 0V300M480 0V300M560 0V300"></path></g>
+              <rect x="96" y="30" width="448" height="186" rx="10" fill="#FFFFFF"></rect>
+              <rect x="96" y="30" width="448" height="30" rx="10" fill="#1B6FC4"></rect><rect x="96" y="48" width="448" height="12" fill="#1B6FC4"></rect>
+              <rect x="112" y="41" width="70" height="8" rx="4" fill="#9CCBF7"></rect><rect x="300" y="41" width="40" height="8" rx="4" fill="#9CCBF7"></rect><rect x="380" y="41" width="60" height="8" rx="4" fill="#9CCBF7"></rect>
+              <g fill="#EAEFF4"><rect x="96" y="92" width="448" height="1"></rect><rect x="96" y="124" width="448" height="1"></rect><rect x="96" y="156" width="448" height="1"></rect><rect x="96" y="188" width="448" height="1"></rect><rect x="286" y="60" width="1" height="156"></rect></g>
+              <circle cx="120" cy="76" r="7" fill="#1C9A55"></circle><circle cx="120" cy="108" r="7" fill="#1C9A55"></circle><circle cx="120" cy="140" r="7" fill="#B4740B"></circle><circle cx="120" cy="172" r="7" fill="#D9E0E8"></circle><circle cx="120" cy="202" r="7" fill="#D9E0E8"></circle>
+              <g fill="#C4CFDA"><rect x="136" y="72" width="120" height="8" rx="4"></rect><rect x="136" y="104" width="96" height="8" rx="4"></rect><rect x="136" y="136" width="130" height="8" rx="4"></rect><rect x="136" y="168" width="84" height="8" rx="4"></rect><rect x="136" y="198" width="110" height="8" rx="4"></rect></g>
+              <rect x="300" y="69" width="90" height="14" rx="4" fill="#1C9A55"></rect><rect x="360" y="101" width="80" height="14" rx="4" fill="#1C9A55"></rect><rect x="410" y="133" width="70" height="14" rx="4" fill="#B4740B"></rect><rect x="460" y="165" width="64" height="14" rx="4" fill="#1B6FC4"></rect><rect x="480" y="195" width="50" height="14" rx="4" fill="#1B6FC4"></rect>
+              <circle cx="320" cy="123" r="38" fill="#10243A" opacity="0.88"></circle><circle cx="320" cy="123" r="31" fill="#FFFFFF"></circle><path d="M311 108v30l25-15z" fill="#124B87"></path>
+              <rect y="232" width="640" height="68" fill="#0B1A2A"></rect>
+              <text x="32" y="262" fill="#FFFFFF" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="20" font-weight="600">Smartsheet End-User Training</text>
+              <text x="32" y="284" fill="#A2B4C6" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13">AIS client onboarding · Opens in Google Drive</text>
+              <rect x="540" y="252" width="72" height="26" rx="13" fill="#1B6FC4"></rect><text x="576" y="270" fill="#FFFFFF" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="600">Watch</text>
+            </svg></a>
+        <p class="muted">Covers logging in, navigating sheets, updating tasks and reading this dashboard. Watch it before you make your first edit.</p>
+      </section>
+      <section class="card">
+        <div class="head"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg><h2>Interactive user guide</h2><span class="pill" style="margin-left:auto">Step 3</span></div>
+        <a class="cta" href="http://systemintegrityops.com/proposals/ais_smarthseet/user_guide.html" target="_blank" rel="noopener">
+          <span><b>Open the Smartsheet Best Practices guide</b><small>12 short sections · ends with a knowledge check</small></span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+        </a>
+        <div class="chips"><span>Licenses &amp; logging in</span><span>Working inside a sheet</span><span>Sharing &amp; permissions</span><span>Project workspaces</span><span>Using the dashboard</span><span>Knowledge check</span></div>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="card">
+        <div class="head"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><h2>Your onboarding checklist</h2><span class="meta">Live from sheet: Client Onboarding Tasks</span></div>
+        <div class="sheet" id="sheet">
+          <div class="row th"><div>Done</div><div>Task name</div><div class="w">Where</div><div>Status</div></div>
+        </div>
+      </section>
+      <section class="card">
+        <div class="head"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><h2>Final step: enter your workspace</h2></div>
+        <a class="gate" id="gate" href="#" onclick="return false">
+          <span><b>Launch Secure Playbook Workspace</b><small id="gnote">Complete the checklist first so your access is fully set up</small></span>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </a>
+        <div class="help">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+          <span>Questions? Contact Jeff Mandell · <a href="mailto:jeff@acquisitionintegrationspecialists.com">jeff@acquisitionintegrationspecialists.com</a></span>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+<p class="note">Concept preview of the AIS Welcome Mat dashboard in Smartsheet.</p>
+</div>
+<script>
+(function(){
+  var tasks=[
+    ['t1','1. Upload profile photo','Helps your team recognise you in comments','Account › Profile'],
+    ['t2','2. Watch the training video','Smartsheet End-User Training','Video, left'],
+    ['t3','3. Review the user guide and complete the quiz','Finish with the knowledge check at the end','User guide, left'],
+    ['t4','4. Check your permissions','Confirm you can edit your workstream sheets','Sharing panel'],
+    ['t5','5. Confirm your time zone','Keeps due dates and alerts accurate','Personal settings']
+  ];
+  var KEY='ais-welcome-mat', done={};
+  try{done=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
+  var sheet=document.getElementById('sheet');
+  tasks.forEach(function(t){
+    var r=document.createElement('div');r.className='row';r.id='r-'+t[0];
+    r.innerHTML='<div class="c"><input type="checkbox" id="'+t[0]+'"></div><label for="'+t[0]+'"><span>'+t[1]+'</span><small>'+t[2]+'</small></label><div class="w">'+t[3]+'</div><div class="s"><span class="st"></span></div>';
+    sheet.appendChild(r);
+    r.querySelector('input').addEventListener('change',function(e){done[t[0]]=e.target.checked;save();render();});
+  });
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}}
+  function render(){
+    var n=0;
+    tasks.forEach(function(t){
+      var d=!!done[t[0]]; if(d)n++;
+      var r=document.getElementById('r-'+t[0]);
+      r.classList.toggle('done',d); r.querySelector('input').checked=d;
+      var s=r.querySelector('.st'); s.textContent=d?'Complete':'Not started'; s.classList.toggle('ok',d);
+    });
+    var left=tasks.length-n, ready=left===0;
+    document.getElementById('n').textContent=n;
+    document.getElementById('fill').style.width=(n/tasks.length*100)+'%';
+    document.getElementById('status').textContent=ready?'All set — your workspace is unlocked.':left+' step'+(left===1?'':'s')+' left before your workspace opens';
+    document.getElementById('gate').classList.toggle('ready',ready);
+    document.getElementById('gnote').textContent=ready?'Checklist complete — you are ready to go':'Complete the checklist first so your access is fully set up';
+  }
+  render();
+})();
+</script>
+<script>
+(function(){
+  var H='2d414d90043b259cae72d03d959de190f8c23f3ab7aba7367fb10c79477a8c86', K='ais-mat-unlocked';
+  function sha256(a){function r(n,x){return(x>>>n)|(x<<(32-n))}var k=[],h=[],i,j,p=2;for(var c=0;c<64;p++){for(j=2;j*j<=p;j++)if(p%j==0)break;if(j*j>p){if(c<8)h[c]=(Math.pow(p,.5)*4294967296)|0;k[c++]=(Math.pow(p,1/3)*4294967296)|0}}
+    a=unescape(encodeURIComponent(a));var l=a.length*8,w=[];a+='\x80';while(a.length%64-56)a+='\x00';for(i=0;i<a.length;i++)w[i>>2]|=a.charCodeAt(i)<<((3-i)%4)*8;w[w.length]=(l/4294967296)|0;w[w.length]=l;
+    for(j=0;j<w.length;){var W=w.slice(j,j+=16),o=h.slice(0);for(i=0;i<64;i++){if(i>15){var x=W[i-15],y=W[i-2];W[i]=W[i-16]+(r(7,x)^r(18,x)^(x>>>3))+W[i-7]+(r(17,y)^r(19,y)^(y>>>10))|0}
+      var e=h[4],t1=h[7]+(r(6,e)^r(11,e)^r(25,e))+((e&h[5])^(~e&h[6]))+k[i]+W[i],b=h[0],t2=(r(2,b)^r(13,b)^r(22,b))+((b&h[1])^(b&h[2])^(h[1]&h[2]));h=[t1+t2|0].concat(h);h[4]=h[4]+t1|0;h.pop()}
+      for(i=0;i<8;i++)h[i]=h[i]+o[i]|0}
+    var s='';for(i=0;i<8;i++)for(j=3;j+1;j--){var b2=(h[i]>>(j*8))&255;s+=(b2<16?'0':'')+b2.toString(16)}return s}
+  function unlock(){document.body.classList.remove('locked')}
+  try{if(sessionStorage.getItem(K)===H)unlock()}catch(e){}
+  document.getElementById('lockForm').addEventListener('submit',function(ev){
+    ev.preventDefault();var v=document.getElementById('pw').value;
+    if(sha256(v)===H){try{sessionStorage.setItem(K,H)}catch(e){}unlock();window.scrollTo(0,0)}
+    else{document.getElementById('err').textContent='That password isn’t right. Please try again.';document.getElementById('pw').select()}
+  });
+})();
+</script>
+</body>
+</html>
